@@ -14,6 +14,7 @@ import android.widget.RadioGroup;
 
 import com.service.business.R;
 import com.service.business.ui.base.BaseActivity;
+import com.service.business.ui.fragment.FindFragment;
 import com.service.business.ui.fragment.HomeFragment;
 import com.service.business.ui.fragment.SystemFragment;
 import com.service.business.ui.fragment.WodeFragment;
@@ -54,7 +55,7 @@ public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedCh
     public void initData() {
         fragments = new ArrayList<Fragment>();
         fragments.add(new HomeFragment());
-        fragments.add(new HomeFragment());
+        fragments.add(new FindFragment());
         fragments.add(new SystemFragment());
         fragments.add(new WodeFragment());
         rgMenu.setOnCheckedChangeListener(this);

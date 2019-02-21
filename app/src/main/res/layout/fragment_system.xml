@@ -15,6 +15,71 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
+
+            <RelativeLayout
+                android:id="@+id/rl_bar"
+                android:layout_width="match_parent"
+                android:layout_height="?android:attr/actionBarSize"
+                android:background="@color/sq_bar">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:text="系统管理"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/sp_23"
+                    android:textStyle="bold" />
+
+
+            </RelativeLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_20"
+                android:layout_marginLeft="@dimen/dp_16"
+                android:text="语音公告"/>
+
+            <TextView
+                android:id="@+id/tv_record"
+                android:layout_width="@dimen/dp_200"
+                android:layout_height="@dimen/dp_43"
+                android:text="开始录音"
+                android:layout_marginLeft="@dimen/dp_16"
+                android:textSize="@dimen/sp_18"
+                android:textStyle="bold"
+                android:gravity="center"
+                android:layout_gravity="center_horizontal"
+                android:textColor="@color/white"
+                android:layout_marginTop="@dimen/dp_20"
+                android:background="@drawable/yuan_tag"/>
+            <TextView
+                android:id="@+id/tv_play_record"
+                android:layout_width="@dimen/dp_200"
+                android:layout_height="@dimen/dp_43"
+                android:text="播放录音"
+                android:layout_marginLeft="@dimen/dp_16"
+                android:textSize="@dimen/sp_18"
+                android:textStyle="bold"
+                android:gravity="center"
+                android:layout_gravity="center_horizontal"
+                android:textColor="@color/white"
+                android:layout_marginTop="@dimen/dp_20"
+                android:background="@drawable/yuan_tag"/>
+            <TextView
+                android:id="@+id/tv_upload_record"
+                android:layout_width="@dimen/dp_200"
+                android:layout_height="@dimen/dp_43"
+                android:text="上传录音"
+                android:layout_marginLeft="@dimen/dp_16"
+                android:textSize="@dimen/sp_18"
+                android:textStyle="bold"
+                android:gravity="center"
+                android:layout_gravity="center_horizontal"
+                android:textColor="@color/white"
+                android:layout_marginTop="@dimen/dp_20"
+                android:background="@drawable/yuan_tag"/>
         </LinearLayout>
     </RelativeLayout>
 

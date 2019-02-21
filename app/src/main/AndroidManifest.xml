@@ -70,6 +70,7 @@
             android:screenOrientation="landscape"/>
         <activity android:name=".ui.activity.RegisterActivity"
             />
+        <service android:name=".ui.record.RecordingService"/>
     </application>
 
 </manifest>

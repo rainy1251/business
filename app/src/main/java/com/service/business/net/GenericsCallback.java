@@ -6,6 +6,7 @@ import android.view.View;
 import com.google.gson.Gson;
 import com.service.business.ui.utils.MyLog;
 import com.service.business.ui.utils.MySnackbar;
+import com.service.business.ui.utils.MyToast;
 import com.zhy.http.okhttp.callback.Callback;
 
 import java.io.IOException;
@@ -86,7 +87,7 @@ public abstract class GenericsCallback<T> extends Callback<T> {
 //            Intent intent = new Intent(UiUtils.getContext(), LoginActivity.class);
 //            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 //            UiUtils.getContext().startActivity(intent);
-
+            MyToast.show("登录过期，请重新登录！");
             return;
         }
         if (e.toString().contains("UnknownHostException")) {

@@ -216,6 +216,9 @@ public class RegisterActivity extends BaseActivity {
                             if (!isLogin) {
                                 //Intent intent = new Intent(RegisterActivity.this, EditUserDetailActivity.class);
                                 //startActivity(intent);
+
+                            }else{
+                                MyToast.show("登陆成功");
                             }
                             finish();
                             EventBus.getDefault().post(new MessageEvent("更新"));
@@ -287,15 +290,6 @@ public class RegisterActivity extends BaseActivity {
 
 
         });
-
-//
     }
 
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        // TODO: add setContentView(...) invocation
-        ButterKnife.bind(this);
-    }
 }
