@@ -21,6 +21,7 @@ public class UserInfoBean implements Serializable {
         public String nickname;
         public String gender;
         public String url;
+        public String name;
     }
 
     public String errmsg;

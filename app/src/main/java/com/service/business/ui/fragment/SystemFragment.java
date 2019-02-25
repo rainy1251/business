@@ -1,9 +1,11 @@
 package com.service.business.ui.fragment;
 
+import android.content.ContentProvider;
 import android.content.SharedPreferences;
 import android.view.View;
 import android.widget.TextView;
 
+import com.netease.nim.uikit.common.fragment.TabFragment;
 import com.service.business.R;
 import com.service.business.model.StateBean;
 import com.service.business.model.UserInfoBean;
@@ -16,10 +18,15 @@ import com.service.business.ui.record.RecordingItem;
 import com.service.business.ui.utils.Constants;
 import com.service.business.ui.utils.MyLog;
 import com.service.business.ui.utils.MyToast;
+import com.service.business.ui.utils.NetUtils;
 import com.service.business.ui.utils.SPUtils;
+import com.service.business.ui.utils.UiUtils;
 import com.zhy.http.okhttp.OkHttpUtils;
 
 import java.io.File;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -93,13 +100,17 @@ public class SystemFragment extends BaseFragment {
                             .post()
                             .addHeader("Content-Disposition", "form-data;filename=enctype")
                             .addHeader("X-communityapp-Token", token)
-                            .url(Constants.BASE_URL + "/admin/storage/upload")
+                            .url(Constants.BASE_URL + "/app/upload/uploadImg")
                             .addFile("file", compressfile.getName(), compressfile)
-                            .build().execute(new GenericsCallback<StateBean>(new JsonGenericsSerializator()) {
+                            .build().execute(new GenericsCallback<UserInfoBean>(new JsonGenericsSerializator()) {
                         @Override
-                        public void onResponse(StateBean response, int id) {
+                        public void onResponse(UserInfoBean response, int id) {
                             if (response.errno == 0) {
                                 MyToast.show("上传成功");
+                                String url = response.data.url;
+                                String name = response.data.name;
+                                requestUpAD(url,name);
+                                return;
                             }
 
                         }
@@ -109,5 +120,20 @@ public class SystemFragment extends BaseFragment {
                 }
                 break;
         }
+    }
+
+    private void requestUpAD(String url,String name) {
+
+        Map<String, String> map = new HashMap();
+        map.put("attachUrl", url);
+        map.put("sendType", "2");
+        map.put("attachName", name);
+        String postContent = UiUtils.getPostContent(map);
+        NetUtils.getBuildByPostToken("/app/notice/create", postContent).execute(new GenericsCallback<StateBean>(new JsonGenericsSerializator()) {
+            @Override
+            public void onResponse(StateBean response, int id) {
+
+            }
+        });
     }
 }

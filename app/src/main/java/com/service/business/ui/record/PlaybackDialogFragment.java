@@ -305,13 +305,13 @@ public class PlaybackDialogFragment extends DialogFragment {
 
                 int mCurrentPosition = mMediaPlayer.getCurrentPosition();
                 mSeekBar.setProgress(mCurrentPosition);
+
                 long minutes = TimeUnit.MILLISECONDS.toMinutes(mCurrentPosition);
                 long seconds = TimeUnit.MILLISECONDS.toSeconds(mCurrentPosition)
                         - TimeUnit.MINUTES.toSeconds(minutes);
                 mCurrentProgressTextView.setText(String.format("%02d:%02d", minutes, seconds));
 
                 updateSeekBar();
-
             }
         }
     };

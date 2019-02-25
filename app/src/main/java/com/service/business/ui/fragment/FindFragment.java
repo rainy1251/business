@@ -13,7 +13,7 @@ public class FindFragment extends BaseFragment {
 
     @Override
     public void initView() {
-        
+
 
     }
 

@@ -19,10 +19,8 @@ import android.widget.Chronometer;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-
 import com.melnykov.fab.FloatingActionButton;
 import com.service.business.R;
-import com.service.business.ui.utils.MyLog;
 
 import java.io.File;
 
@@ -119,7 +117,7 @@ public class RecordAudioDialogFragment extends DialogFragment {
             mFabRecord.setImageResource(R.drawable.ic_media_stop);
             //mPauseButton.setVisibility(View.VISIBLE);
             Toast.makeText(getActivity(), "开始录音...", Toast.LENGTH_SHORT).show();
-            File folder = new File(Environment.getExternalStorageDirectory() + "/SheQu");
+            File folder = new File(Environment.getExternalStorageDirectory() + "/SoundRecorder");
             if (!folder.exists()) {
                 //folder /SoundRecorder doesn't exist, create the folder
                 folder.mkdir();
@@ -128,6 +126,7 @@ public class RecordAudioDialogFragment extends DialogFragment {
             //start Chronometer
             mChronometerTime.setBase(SystemClock.elapsedRealtime());
             mChronometerTime.start();
+
             //start RecordingService
             getActivity().startService(intent);
             //keep screen on while recording

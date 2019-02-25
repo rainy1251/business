@@ -13,11 +13,14 @@ import android.widget.ListView;
 import com.service.business.R;
 import com.service.business.ui.base.BaseApplication;
 
+import org.json.JSONObject;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -339,5 +342,14 @@ public class UiUtils {
         return picPath;
     }
 
-
+    /***
+     * 获取请求体
+     * @return
+     * @param map
+     */
+    public static String getPostContent(Map<String, String> map) {
+        JSONObject jsonObject = (JSONObject) JSONObject.wrap(map);
+        String content = jsonObject.toString();
+        return content;
+    }
 }

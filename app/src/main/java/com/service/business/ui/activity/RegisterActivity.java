@@ -196,8 +196,8 @@ public class RegisterActivity extends BaseActivity {
      * 注册
      */
     private void getRegister(String api, String content) {
-        MyLog.show(content);
-        NetUtils.getBuildByPost(api, content)
+
+        NetUtils.getBuildByPostToken(api, content)
                 .execute(new GenericsCallback<StateBean>(new JsonGenericsSerializator(), etUsername) {
                     @Override
                     public void onResponse(StateBean response, int id) {

@@ -9,6 +9,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AlertDialog;
 import android.view.KeyEvent;
+import android.webkit.WebView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
@@ -126,14 +127,14 @@ public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedCh
 //
 //            }
 //        }else{
-//            if (keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0) {
-//                showDialog(100);
-//                return true;
-//            } else
-//                return super.onKeyDown(keyCode, event);
-//
-//        }
-        return false;
+        if (keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0) {
+            showDialog(100);
+            return true;
+        } else
+            return super.onKeyDown(keyCode, event);
+
+        //  }
+        //return false;
 
     }
 

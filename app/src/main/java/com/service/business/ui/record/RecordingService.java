@@ -8,7 +8,6 @@ import android.os.IBinder;
 import android.util.Log;
 
 import com.service.business.R;
-import com.service.business.ui.utils.MyLog;
 
 import java.io.File;
 import java.io.IOException;
@@ -68,6 +67,7 @@ public class RecordingService extends Service {
         mRecorder.setAudioChannels(1);
         mRecorder.setAudioSamplingRate(44100);
         mRecorder.setAudioEncodingBitRate(192000);
+
         try {
             mRecorder.prepare();
             mRecorder.start();
@@ -83,10 +83,9 @@ public class RecordingService extends Service {
 
         do {
             count++;
-            mFileName = getString(R.string.default_file_name)
-                    + "record" + ".mp3";
+            mFileName = getString(R.string.default_file_name)+".mp3";
             mFilePath = Environment.getExternalStorageDirectory().getAbsolutePath();
-            mFilePath += "/SheQu/" + mFileName;
+            mFilePath += "/SoundRecorder/" + mFileName;
             f = new File(mFilePath);
         } while (f.exists() && !f.isDirectory());
     }
