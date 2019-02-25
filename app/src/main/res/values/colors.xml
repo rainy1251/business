@@ -14,4 +14,6 @@
     <color name="sq_bg">#F6F6F6</color>
     <color name="mengban">#33000000</color>
     <color name="nred">#FF7F8F</color>
+    <color name="popup_main_background">#b0000000</color>
+    <color name="sq_green">#00CC66 </color>
 </resources>

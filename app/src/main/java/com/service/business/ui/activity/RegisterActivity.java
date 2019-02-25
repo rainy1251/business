@@ -6,6 +6,8 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.netease.nim.avchatkit.AVChatKit;
+import com.netease.nim.uikit.Contents;
 import com.netease.nim.uikit.api.NimUIKit;
 import com.netease.nimlib.sdk.AbortableFuture;
 import com.netease.nimlib.sdk.RequestCallback;
@@ -268,7 +270,12 @@ public class RegisterActivity extends BaseActivity {
             @Override
             public void onSuccess(LoginInfo param) {
                 MyToast.show("登录IM成功");
-
+                String account = param.getAccount();
+                String token = param.getToken();
+                com.netease.nim.uikit.SPUtils.save(Contents.IMAccoune, account);
+                com.netease.nim.uikit.SPUtils.save(Contents.IMToken, token);
+                NimUIKit.setAccount(account);
+                AVChatKit.setAccount(account);
             }
 
             @Override

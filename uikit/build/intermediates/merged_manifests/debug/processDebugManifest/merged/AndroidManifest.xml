@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.netease.nim.uikit"
-    android:versionCode="12"
-    android:versionName="3.5.4" >
+    android:versionCode="1"
+    android:versionName="1.0" >
 
     <uses-sdk
-        android:minSdkVersion="17"
+        android:minSdkVersion="19"
         android:targetSdkVersion="28" />
 
     <application>
@@ -21,7 +21,7 @@
         <activity
             android:name="com.netease.nim.uikit.business.session.activity.P2PMessageActivity"
             android:configChanges="keyboardHidden|orientation"
-            android:screenOrientation="portrait"
+            android:screenOrientation="landscape"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity

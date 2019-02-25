@@ -2,7 +2,9 @@ package com.service.business.ui.activity;
 
 import android.annotation.SuppressLint;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Process;
 import android.support.v4.app.Fragment;
@@ -13,6 +15,7 @@ import android.webkit.WebView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
+import com.netease.nim.uikit.business.recent.RecentContactsFragment;
 import com.service.business.R;
 import com.service.business.ui.base.BaseActivity;
 import com.service.business.ui.fragment.FindFragment;
@@ -51,11 +54,13 @@ public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedCh
 
 
     }
+    public static void logout(Context context, boolean b) {
 
+    }
     @Override
     public void initData() {
         fragments = new ArrayList<Fragment>();
-        fragments.add(new HomeFragment());
+        fragments.add(new RecentContactsFragment());
         fragments.add(new FindFragment());
         fragments.add(new SystemFragment());
         fragments.add(new WodeFragment());
@@ -73,6 +78,8 @@ public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedCh
         switch (checkedId) {
             case R.id.rb_menu_home:
                 changeFragment(0);
+             //   Intent intent = new Intent(this, SessionListActivity.class);
+             //startActivity(intent);
                 break;
             case R.id.rb_menu_find:
                 changeFragment(1);

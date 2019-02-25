@@ -48,5 +48,6 @@
     <string name="pref_about_key">pref_about</string>
     <string name="pref_about_title">About</string>
     <string name="pref_about_desc">v%s</string>
-
+    <string name="no_data">没有数据</string>
+    <string name="feed">没找到想要的？！那就备注吧，语音留言或备注后将由线下采购人员采购，送达，报销…</string>
 </resources>

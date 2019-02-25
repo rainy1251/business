@@ -2,6 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="com.service.business">
+
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <!-- 用于访问GPS定位 -->
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
@@ -112,20 +113,24 @@
             android:exported="false"
             android:process=":core" />
 
-        <activity android:name=".ui.activity.MainActivity"
-            android:screenOrientation="landscape"
-            >
+        <activity
+            android:name=".ui.activity.MainActivity"
+            android:screenOrientation="landscape">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.activity.SessionListActivity"
-            android:screenOrientation="landscape"/>
-        <activity android:name=".ui.activity.RegisterActivity"
-            />
-        <service android:name=".ui.record.RecordingService"/>
+        <activity
+            android:name=".ui.activity.SessionListActivity"
+            android:screenOrientation="landscape" />
+        <activity android:name=".ui.activity.RegisterActivity" />
+
+        <service android:name=".ui.record.RecordingService" />
+
+        <activity android:name=".ui.activity.GoodsListActivity"
+            android:windowSoftInputMode="adjustResize|stateHidden"></activity>
     </application>
 
 </manifest>

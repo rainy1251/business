@@ -17,7 +17,7 @@
             <RelativeLayout
                 android:id="@+id/rl_bar"
                 android:layout_width="match_parent"
-                android:layout_height="?android:attr/actionBarSize"
+                android:layout_height="@dimen/dp_40"
                 android:background="@color/sq_bar">
 
                 <TextView
@@ -26,7 +26,7 @@
                     android:layout_centerInParent="true"
                     android:text="配送管理"
                     android:textColor="@color/white"
-                    android:textSize="@dimen/sp_23"
+                    android:textSize="@dimen/sp_16"
                     android:textStyle="bold" />
 
 

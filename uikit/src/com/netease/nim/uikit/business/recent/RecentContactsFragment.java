@@ -9,6 +9,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.netease.nim.uikit.Contents;
+import com.netease.nim.uikit.SPUtils;
 import com.netease.nim.uikit.common.ToastHelper;
 
 import com.netease.nim.uikit.R;
@@ -23,6 +25,7 @@ import com.netease.nim.uikit.business.uinfo.UserInfoHelper;
 import com.netease.nim.uikit.common.CommonUtil;
 import com.netease.nim.uikit.common.badger.Badger;
 import com.netease.nim.uikit.common.fragment.TFragment;
+import com.netease.nim.uikit.common.framework.NimTaskExecutor;
 import com.netease.nim.uikit.common.ui.dialog.CustomAlertDialog;
 import com.netease.nim.uikit.common.ui.drop.DropCover;
 import com.netease.nim.uikit.common.ui.drop.DropManager;
@@ -127,6 +130,7 @@ public class RecentContactsFragment extends TFragment {
         recyclerView = findView(R.id.recycler_view);
         emptyBg = findView(R.id.emptyBg);
         emptyHint = findView(R.id.message_list_empty_hint);
+        String token = SPUtils.getString(Contents.IMToken);
     }
 
     /**

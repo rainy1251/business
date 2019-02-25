@@ -14,7 +14,7 @@ public class SessionListActivity extends BaseActivity {
 
     @Override
     public void initView() {
-        setToolbarNoEN(R.id.toolbar,"消息列表");
+        setToolbarNoEN(R.id.toolbar,"录音管理");
 
     }
 

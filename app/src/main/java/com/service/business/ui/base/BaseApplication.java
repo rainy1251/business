@@ -2,6 +2,7 @@ package com.service.business.ui.base;
 
 import android.app.Application;
 import android.graphics.Color;
+import android.support.multidex.MultiDex;
 
 import com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout;
 import com.lcodecore.tkrefreshlayout.header.progresslayout.ProgressLayout;
@@ -11,6 +12,8 @@ import com.netease.nimlib.sdk.SDKOptions;
 import com.netease.nimlib.sdk.StatusBarNotificationConfig;
 import com.netease.nimlib.sdk.auth.LoginInfo;
 import com.netease.nimlib.sdk.util.NIMUtil;
+import com.service.business.avchat.DemoCache;
+import com.service.business.avchat.IMConfig;
 import com.service.business.ui.activity.SessionListActivity;
 import com.service.business.ui.utils.SPUtils;
 import com.service.business.ui.view.MyLoadingView;
@@ -34,16 +37,18 @@ public class BaseApplication extends Application {
         instance = this;
         initRefreshLayout();
         SPUtils.instance(this);
+        MultiDex.install(this);
         getInitIM();
 
     }
 
     private void getInitIM() {
-        NIMClient.init(this, loginInfo(), options());
-        if (NIMUtil.isMainProcess(this)) {
-            NimUIKit.init(this);
-            NIMClient.toggleNotification(true);
-        }
+        DemoCache.setContext(getApplicationContext());
+        com.netease.nim.uikit.SPUtils.instance(getApplicationContext());
+        // SDK初始化（启动后台服务，若已经存在用户登录信息， SDK 将完成自动登录）
+        NIMClient.init(this, IMConfig.loginInfo(), IMConfig.options(getApplicationContext()));
+        // crash handler
+        IMConfig.initUiKit(getApplicationContext());
     }
 
     /**
