@@ -6,7 +6,7 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="1px"
-        android:layout_marginTop="@dimen/dp_12"
+        android:layout_marginTop="@dimen/dp_8"
 
         android:background="@color/tab_unchecked" />
 </LinearLayout>

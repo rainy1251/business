@@ -1,13 +1,16 @@
 package com.service.business.ui.activity;
 
-import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.netease.nim.avchatkit.AVChatKit;
 import com.netease.nim.uikit.Contents;
+import com.netease.nim.uikit.SPUtils;
 import com.netease.nim.uikit.api.NimUIKit;
 import com.netease.nimlib.sdk.AbortableFuture;
 import com.netease.nimlib.sdk.RequestCallback;
@@ -18,12 +21,10 @@ import com.service.business.model.StateBean;
 import com.service.business.net.GenericsCallback;
 import com.service.business.net.JsonGenericsSerializator;
 import com.service.business.ui.base.BaseActivity;
-import com.service.business.ui.utils.MyLog;
 import com.service.business.ui.utils.MyToast;
 import com.service.business.ui.utils.NetUtils;
-import com.service.business.ui.utils.SPUtils;
 import com.service.business.ui.utils.UiUtils;
-import com.service.business.ui.view.MessageEvent;
+import com.service.business.ui.view.MessageUpDataUIEvent;
 import com.service.business.ui.view.TimerCount;
 
 import org.greenrobot.eventbus.EventBus;
@@ -33,10 +34,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class RegisterActivity extends BaseActivity {
+public class RegisterActivity extends BaseActivity implements RadioGroup.OnCheckedChangeListener{
     @BindView(R.id.et_username)
     EditText etUsername;
     @BindView(R.id.et_code)
@@ -55,9 +55,17 @@ public class RegisterActivity extends BaseActivity {
     LinearLayout llMobile;
     @BindView(R.id.ll_code)
     LinearLayout llCode;
-
+    @BindView(R.id.rl_radio)
+    RelativeLayout rl_radio;
+    @BindView(R.id.rg_type)
+    RadioGroup rgType;
+    @BindView(R.id.rb_y)
+    RadioButton rbY;
+    @BindView(R.id.rb_p)
+    RadioButton rbp;
     private boolean isLogin;
     private String api;
+    private  String type="1";
 
     @Override
     public int getLayoutId() {
@@ -72,6 +80,7 @@ public class RegisterActivity extends BaseActivity {
             tv_title.setText("登录");
             llMobile.setVisibility(View.GONE);
             llCode.setVisibility(View.GONE);
+            rl_radio.setVisibility(View.GONE);
         } else {
 
             setToolbarNoEN(R.id.toolbar, "注册");
@@ -88,7 +97,7 @@ public class RegisterActivity extends BaseActivity {
 
     @Override
     protected void initListener() {
-
+        rgType.setOnCheckedChangeListener(this);
     }
 
 
@@ -152,6 +161,7 @@ public class RegisterActivity extends BaseActivity {
                 }else{
                     map.put("mobile", mobile);
                     map.put("code", code);
+                    map.put("type", type);
                     api = "/app/auth/register";
                 }
 
@@ -223,7 +233,7 @@ public class RegisterActivity extends BaseActivity {
                                 MyToast.show("登陆成功");
                             }
                             finish();
-                            EventBus.getDefault().post(new MessageEvent("更新"));
+                            EventBus.getDefault().post(new MessageUpDataUIEvent("更新"));
                         } else {
                             MyToast.show(response.errmsg);
                         }
@@ -272,8 +282,8 @@ public class RegisterActivity extends BaseActivity {
                 MyToast.show("登录IM成功");
                 String account = param.getAccount();
                 String token = param.getToken();
-                com.netease.nim.uikit.SPUtils.save(Contents.IMAccoune, account);
-                com.netease.nim.uikit.SPUtils.save(Contents.IMToken, token);
+               SPUtils.save(Contents.IMAccoune, account);
+                SPUtils.save(Contents.IMToken, token);
                 NimUIKit.setAccount(account);
                 AVChatKit.setAccount(account);
             }
@@ -298,5 +308,16 @@ public class RegisterActivity extends BaseActivity {
 
         });
     }
+    @Override
+    public void onCheckedChanged(RadioGroup radioGroup, int i) {
+        switch (i) {
+            case R.id.rb_y:
+                type="1";
+                break;
+            case R.id.rb_p:
+                type="2";
+                break;
 
+        }
+    }
 }

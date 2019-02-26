@@ -17,8 +17,6 @@ import com.service.business.R;
 import com.service.business.model.GoodsOneBean;
 import com.service.business.ui.activity.GoodsListActivity;
 import com.service.business.ui.adapter.TextAdapter;
-import com.service.business.ui.utils.MyLog;
-import com.service.business.ui.utils.MyToast;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -77,8 +75,8 @@ public class ChildView extends LinearLayout {
 
     private void init(Context context) {
         GoodsListActivity activity = (GoodsListActivity) context;
-        ArrayList<GoodsOneBean.DatasBean> dataOne = activity.getDataOne();
-        ArrayList<GoodsOneBean.DatasBean> dataTwo = activity.getDataTwo();
+//        ArrayList<GoodsOneBean.DatasBean> dataOne = activity.getDataOne();
+//        ArrayList<GoodsOneBean.DatasBean> dataTwo = activity.getDataTwo();
         LayoutInflater inflater = (LayoutInflater) context
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
@@ -95,7 +93,7 @@ public class ChildView extends LinearLayout {
             LinkedList<String> tItem = new LinkedList<String>();
             for (int j = 0; j < dataTwo.size(); j++) {
 
-                tItem.add(dataTwo.get(j).label);
+                tItem.add(dataTwo.get(j).label+"￥"+dataTwo.get(j).value);
 
             }
             children.put(i, tItem);

@@ -77,9 +77,9 @@ public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedCh
     public void onCheckedChanged(RadioGroup group, int checkedId) {
         switch (checkedId) {
             case R.id.rb_menu_home:
-                changeFragment(0);
-             //   Intent intent = new Intent(this, SessionListActivity.class);
-             //startActivity(intent);
+               changeFragment(0);
+//                Intent intent = new Intent(this, SessionListActivity.class);
+//             startActivity(intent);
                 break;
             case R.id.rb_menu_find:
                 changeFragment(1);

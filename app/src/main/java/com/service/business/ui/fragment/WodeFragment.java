@@ -8,6 +8,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.CircleCrop;
 import com.bumptech.glide.request.RequestOptions;
+import com.netease.nim.uikit.SPUtils;
 import com.netease.nimlib.sdk.NIMClient;
 import com.netease.nimlib.sdk.RequestCallbackWrapper;
 import com.netease.nimlib.sdk.uinfo.UserService;
@@ -17,11 +18,11 @@ import com.service.business.model.UserInfoBean;
 import com.service.business.net.GenericsCallback;
 import com.service.business.net.JsonGenericsSerializator;
 import com.service.business.ui.activity.RegisterActivity;
+import com.service.business.ui.activity.SessionListActivity;
 import com.service.business.ui.base.BaseFragment;
 import com.service.business.ui.utils.MyToast;
 import com.service.business.ui.utils.NetUtils;
-import com.service.business.ui.utils.SPUtils;
-import com.service.business.ui.view.MessageEvent;
+import com.service.business.ui.view.MessageUpDataUIEvent;
 
 
 import org.greenrobot.eventbus.EventBus;
@@ -42,6 +43,8 @@ public class WodeFragment extends BaseFragment {
     TextView tvRegister;
     @BindView(R.id.iv_avatar)
     ImageView ivAvatar;
+    @BindView(R.id.iv_message)
+    ImageView iv_message;
     @BindView(R.id.tv_login)
     TextView tv_login;
     private String errmsg;
@@ -107,7 +110,7 @@ public class WodeFragment extends BaseFragment {
         super.onDestroyView();
     }
 
-    @OnClick({R.id.tv_edit, R.id.tv_register, R.id.ll_login})
+    @OnClick({R.id.tv_edit, R.id.tv_register, R.id.ll_login,R.id.iv_message})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.tv_edit:
@@ -128,6 +131,15 @@ public class WodeFragment extends BaseFragment {
                 Intent intent = new Intent(getContext(), RegisterActivity.class);
                 startActivity(intent);
                 break;
+            case R.id.iv_message:
+                String mtoken = SPUtils.getString("token");
+                if (mtoken.equals("")) {
+                    MyToast.show("请先登录");
+                    return;
+                }
+                Intent intent_session = new Intent(getContext(), SessionListActivity.class);
+                startActivity(intent_session);
+                break;
             case R.id.ll_login:
                 Intent intent_login = new Intent(getContext(), RegisterActivity.class);
                 intent_login.putExtra("isLogin", true);
@@ -137,7 +149,7 @@ public class WodeFragment extends BaseFragment {
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void Event(MessageEvent messageEvent) {
+    public void Event(MessageUpDataUIEvent messageEvent) {
         if (messageEvent.getMessage().equals("更新")) {
 
             requestInfo();

@@ -46,6 +46,8 @@ import com.service.business.avchat.session.extension.RedPacketAttachment;
 import com.service.business.avchat.session.extension.SnapChatAttachment;
 import com.service.business.avchat.session.extension.StickerAttachment;
 import com.service.business.avchat.session.viewholder.MsgViewHolderAVChat;
+import com.service.business.ui.activity.GoodsListActivity;
+import com.service.business.ui.utils.MyToast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -173,15 +175,18 @@ public class SessionHelper {
             p2pCustomization.withSticker = true;
 
             // 定制ActionBar右边的按钮，可以加多个
-//            ArrayList<SessionCustomization.OptionsButton> buttons = new ArrayList<>();
-//            SessionCustomization.OptionsButton cloudMsgButton = new SessionCustomization.OptionsButton() {
-//                @Override
-//                public void onClick(Context context, View view, String sessionId) {
+            ArrayList<SessionCustomization.OptionsButton> buttons = new ArrayList<>();
+            SessionCustomization.OptionsButton cloudMsgButton = new SessionCustomization.OptionsButton() {
+                @Override
+                public void onClick(Context context, View view, String sessionId) {
 //                    initPopuptWindow(context, view, sessionId, SessionTypeEnum.P2P);
-//                }
-//            };
-//            cloudMsgButton.iconId = R.drawable.icon_audio_close;
-//
+                    Intent intent = new Intent(context,GoodsListActivity.class );
+                    intent.putExtra("orderUserId", sessionId);
+                    context.startActivity(intent);
+                }
+            };
+            cloudMsgButton.iconId = R.drawable.order;
+
 //            SessionCustomization.OptionsButton infoButton = new SessionCustomization.OptionsButton() {
 //                @Override
 //                public void onClick(Context context, View view, String sessionId) {
@@ -193,10 +198,10 @@ public class SessionHelper {
 //
 //
 //            infoButton.iconId = R.drawable.icon_audio_close;
-//
-//            buttons.add(cloudMsgButton);
-//            buttons.add(infoButton);
-//            p2pCustomization.buttons = buttons;
+
+            buttons.add(cloudMsgButton);
+         //   buttons.add(infoButton);
+            p2pCustomization.buttons = buttons;
         }
 
         return p2pCustomization;

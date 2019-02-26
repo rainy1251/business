@@ -1,16 +1,20 @@
 package com.service.business.ui.view;
 
+import com.service.business.model.GoodsThreeBean;
+
+import java.util.ArrayList;
+
 public class MessageEvent {
-    private String message;
-    public MessageEvent(String message){
+    private ArrayList<GoodsThreeBean.ItemBean.ListBean> message;
+    public MessageEvent(ArrayList<GoodsThreeBean.ItemBean.ListBean> message){
         this.message=message;
     }
  
-    public String getMessage() {
+    public ArrayList<GoodsThreeBean.ItemBean.ListBean> getMessage() {
         return message;
     }
  
-    public void setMessage(String message) {
+    public void setMessage(ArrayList<GoodsThreeBean.ItemBean.ListBean> message) {
         this.message = message;
     }
 }

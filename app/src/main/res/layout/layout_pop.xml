@@ -1,37 +1,76 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+   >
+
     <RelativeLayout
+        android:id="@+id/rl_bar"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_40"
         android:background="@color/sq_green">
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textStyle="bold"
-            android:textColor="@color/white"
-            android:text="采购列表"
+            android:layout_centerVertical="true"
             android:layout_marginLeft="@dimen/dp_16"
-           android:layout_centerVertical="true"
-            android:textSize="@dimen/sp_16"/>
+            android:text="采购列表"
+            android:textColor="@color/white"
+            android:textSize="@dimen/sp_16"
+            android:textStyle="bold" />
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="小计："
+                android:textSize="@dimen/sp_14"
+                android:textColor="@color/dark"
+                android:textStyle="bold"
+                android:id="@+id/xiaoji"
+                android:layout_centerVertical="true"
+   />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/tv_allprice"
+                android:textStyle="bold"
+                android:layout_toRightOf="@+id/xiaoji"
+                android:textSize="@dimen/sp_14"
+                android:layout_centerVertical="true"
+                android:textColor="@color/sq_price"
+                android:text="￥0.00"/>
+
+        </RelativeLayout>
         <TextView
             android:id="@+id/tv_close"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/white"
-            android:text="关闭"
-            android:layout_centerVertical="true"
             android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
             android:layout_marginRight="@dimen/dp_16"
             android:padding="@dimen/dp_5"
-            android:textSize="@dimen/sp_14"/>
+            android:text="关闭"
+            android:textColor="@color/white"
+            android:textSize="@dimen/sp_14" />
 
     </RelativeLayout>
+
     <ListView
+        android:layout_below="@+id/rl_bar"
+        android:id="@+id/lv_shop"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/lv_shop"></ListView>
+        android:background="@color/white"
+        android:layout_marginBottom="@dimen/dp_45">
 
-</LinearLayout>
+    </ListView>
+
+
+
+
+</RelativeLayout>

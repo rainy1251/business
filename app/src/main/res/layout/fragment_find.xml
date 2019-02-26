@@ -32,8 +32,36 @@
 
             </RelativeLayout>
 
+            <TextView
+                android:id="@+id/tv_create_order"
+                android:layout_width="@dimen/dp_200"
+                android:layout_height="@dimen/dp_43"
+                android:text="创建订单"
+                android:layout_marginLeft="@dimen/dp_16"
+                android:textSize="@dimen/sp_16"
+                android:textStyle="bold"
+                android:gravity="center"
+                android:layout_gravity="center_horizontal"
+                android:textColor="@color/white"
+                android:layout_marginTop="@dimen/dp_20"
+                android:background="@drawable/yuan_tag"/>
+            <TextView
+                android:id="@+id/tv_order_list"
+                android:layout_width="@dimen/dp_200"
+                android:layout_height="@dimen/dp_43"
+                android:text="订单管理"
+                android:layout_marginLeft="@dimen/dp_16"
+                android:textSize="@dimen/sp_16"
+                android:textStyle="bold"
+                android:gravity="center"
+                android:layout_gravity="center_horizontal"
+                android:textColor="@color/white"
+                android:layout_marginTop="@dimen/dp_20"
+                android:background="@drawable/yuan_tag"/>
 
         </LinearLayout>
+
+
     </RelativeLayout>
 
 </android.support.design.widget.CoordinatorLayout>

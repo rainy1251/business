@@ -16,4 +16,6 @@
     <color name="nred">#FF7F8F</color>
     <color name="popup_main_background">#b0000000</color>
     <color name="sq_green">#00CC66 </color>
+    <color name="sq_price">#EF8203</color>
+    <color name="sq_user_bg">#FFF0E1</color>
 </resources>

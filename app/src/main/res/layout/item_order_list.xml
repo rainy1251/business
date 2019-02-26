@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_60"
+        android:layout_marginRight="@dimen/dp_16"
+        android:layout_marginLeft="@dimen/dp_16">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/dark"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:text="蔬菜"
+            android:layout_marginTop="@dimen/dp_10"
+            android:id="@+id/tv_name"/>
+        <TextView
+          android:layout_alignParentRight="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/dark"
+            android:layout_marginTop="@dimen/dp_10"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:text="订单金额"
+            android:id="@+id/tv_price"
+           />
+        <TextView
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="@dimen/dp_5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/dark"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:text="订单编号"
+            android:id="@+id/tv_orderSn"
+           />
+        <TextView
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="@dimen/dp_5"
+            android:layout_width="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_height="wrap_content"
+            android:textColor="@color/dark"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:text="订单状态"
+            android:id="@+id/tv_state"
+           />
+
+    </RelativeLayout>
+
+</LinearLayout>

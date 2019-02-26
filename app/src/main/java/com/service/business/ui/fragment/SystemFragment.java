@@ -1,11 +1,10 @@
 package com.service.business.ui.fragment;
 
-import android.content.ContentProvider;
 import android.content.SharedPreferences;
 import android.view.View;
 import android.widget.TextView;
 
-import com.netease.nim.uikit.common.fragment.TabFragment;
+import com.netease.nim.uikit.SPUtils;
 import com.service.business.R;
 import com.service.business.model.StateBean;
 import com.service.business.model.UserInfoBean;
@@ -19,12 +18,10 @@ import com.service.business.ui.utils.Constants;
 import com.service.business.ui.utils.MyLog;
 import com.service.business.ui.utils.MyToast;
 import com.service.business.ui.utils.NetUtils;
-import com.service.business.ui.utils.SPUtils;
 import com.service.business.ui.utils.UiUtils;
 import com.zhy.http.okhttp.OkHttpUtils;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
