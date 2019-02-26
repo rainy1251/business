@@ -22,7 +22,7 @@ android {
             renderscript.srcDirs = ['src']
             res.srcDirs = ['res', 'res-ptr2', 'res-chatroom']
             assets.srcDirs = ['assets']
-//            jniLibs.srcDirs = ['libs']
+           jniLibs.srcDirs = ['libs']
         }
     }
 //

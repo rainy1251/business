@@ -1,5 +1,6 @@
 package com.service.business.ui.activity;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Context;
@@ -17,6 +18,7 @@ import android.widget.RadioGroup;
 
 import com.netease.nim.uikit.business.recent.RecentContactsFragment;
 import com.service.business.R;
+import com.service.business.avchat.PermissionUtils;
 import com.service.business.ui.base.BaseActivity;
 import com.service.business.ui.fragment.FindFragment;
 import com.service.business.ui.fragment.HomeFragment;
@@ -51,7 +53,11 @@ public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedCh
 
     @Override
     public void initView() {
-
+        if (PermissionUtils.checkReadPermission(new String[]{
+                        Manifest.permission.CAMERA, Manifest.permission.RECORD_AUDIO, Manifest.permission.ACCESS_COARSE_LOCATION,
+                        Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE}
+                , PermissionUtils.REQUEST_Location, this)) {
+        }
 
     }
     public static void logout(Context context, boolean b) {
@@ -180,10 +186,5 @@ public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedCh
         //        super.onSaveInstanceState(outState, outPersistentState);
     }
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        // TODO: add setContentView(...) invocation
-        ButterKnife.bind(this);
-    }
+
 }
