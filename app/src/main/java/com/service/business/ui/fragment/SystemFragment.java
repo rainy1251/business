@@ -77,7 +77,7 @@ public class SystemFragment extends BaseFragment {
                 });
                 break;
             case R.id.tv_play_record:
-                RecordingItem recordingItem = new RecordingItem();
+                final RecordingItem recordingItem = new RecordingItem();
                 SharedPreferences sharePreferences = getActivity().getSharedPreferences("sp_name_audio", MODE_PRIVATE);
                 filePath = sharePreferences.getString("audio_path", "");
                 long elpased = sharePreferences.getLong("elpased", 0);
@@ -108,6 +108,8 @@ public class SystemFragment extends BaseFragment {
                                 String name = response.data.name;
                                 requestUpAD(url,name);
                                 return;
+                            }else if (response.errno==501){
+                               UiUtils.showLoginDialog(getActivity());
                             }
 
                         }
@@ -124,12 +126,18 @@ public class SystemFragment extends BaseFragment {
         Map<String, String> map = new HashMap();
         map.put("attachUrl", url);
         map.put("sendType", "2");
+        map.put("noticeType", "2");
         map.put("attachName", name);
         String postContent = UiUtils.getPostContent(map);
         NetUtils.getBuildByPostToken("/app/notice/create", postContent).execute(new GenericsCallback<StateBean>(new JsonGenericsSerializator()) {
             @Override
             public void onResponse(StateBean response, int id) {
+                if (response.errno==0){
+                    MyToast.show("语音公告发布成功");
 
+                }else{
+                    MyToast.show(response.errmsg);
+                }
             }
         });
     }

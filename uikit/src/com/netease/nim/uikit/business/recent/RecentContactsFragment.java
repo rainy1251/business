@@ -32,6 +32,7 @@ import com.netease.nimlib.sdk.Observer;
 import com.netease.nimlib.sdk.RequestCallback;
 import com.netease.nimlib.sdk.RequestCallbackWrapper;
 import com.netease.nimlib.sdk.ResponseCode;
+import com.netease.nimlib.sdk.StatusCode;
 import com.netease.nimlib.sdk.msg.MsgService;
 import com.netease.nimlib.sdk.msg.MsgServiceObserve;
 import com.netease.nimlib.sdk.msg.attachment.MsgAttachment;
@@ -126,8 +127,11 @@ public class RecentContactsFragment extends TFragment {
         recyclerView = findView(R.id.recycler_view);
         emptyBg = findView(R.id.emptyBg);
         emptyHint = findView(R.id.message_list_empty_hint);
-    }
+        StatusCode status = NIMClient.getStatus();
+        if (status.equals("UNLOGIN")){
 
+        }
+    }
     /**
      * 初始化消息列表
      */

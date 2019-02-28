@@ -28,6 +28,7 @@ import com.netease.nimlib.sdk.uinfo.UserInfoProvider;
 import com.netease.nimlib.sdk.uinfo.model.UserInfo;
 import com.netease.nimlib.sdk.util.NIMUtil;
 import com.service.business.R;
+import com.service.business.avchat.event.DemoOnlineStateContentProvider;
 import com.service.business.avchat.utils.LogHelper;
 import com.service.business.ui.activity.MainActivity;
 import com.service.business.avchat.rts.RTSHelper;
@@ -241,7 +242,7 @@ public class IMConfig {
 //        ContactHelper.init();
 //
 //        // 在线状态定制初始化。
-//        NimUIKit.setOnlineStateContentProvider(new DemoOnlineStateContentProvider());
+        NimUIKit.setOnlineStateContentProvider(new DemoOnlineStateContentProvider());
 
     }
 

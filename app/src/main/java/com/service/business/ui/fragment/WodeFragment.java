@@ -1,5 +1,7 @@
 package com.service.business.ui.fragment;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.view.View;
 import android.widget.ImageView;
@@ -9,8 +11,10 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.CircleCrop;
 import com.bumptech.glide.request.RequestOptions;
 import com.netease.nim.uikit.SPUtils;
+import com.netease.nim.uikit.api.NimUIKit;
 import com.netease.nimlib.sdk.NIMClient;
 import com.netease.nimlib.sdk.RequestCallbackWrapper;
+import com.netease.nimlib.sdk.auth.AuthService;
 import com.netease.nimlib.sdk.uinfo.UserService;
 import com.netease.nimlib.sdk.uinfo.constant.UserInfoFieldEnum;
 import com.service.business.R;
@@ -34,6 +38,8 @@ import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+
+import static com.service.business.ui.utils.UiUtils.showLoginDialog;
 
 
 public class WodeFragment extends BaseFragment {
@@ -112,9 +118,9 @@ public class WodeFragment extends BaseFragment {
 
     @OnClick({R.id.tv_edit, R.id.tv_register, R.id.ll_login,R.id.iv_message})
     public void onViewClicked(View view) {
+        String token = SPUtils.getString("token");
         switch (view.getId()) {
             case R.id.tv_edit:
-                String token = SPUtils.getString("token");
                 if (token.equals("")) {
                     MyToast.show("请先登录");
                     return;
@@ -134,16 +140,21 @@ public class WodeFragment extends BaseFragment {
             case R.id.iv_message:
                 String mtoken = SPUtils.getString("token");
                 if (mtoken.equals("")) {
-                    MyToast.show("请先登录");
+                    showLoginDialog(getActivity());
                     return;
                 }
                 Intent intent_session = new Intent(getContext(), SessionListActivity.class);
                 startActivity(intent_session);
                 break;
             case R.id.ll_login:
-                Intent intent_login = new Intent(getContext(), RegisterActivity.class);
-                intent_login.putExtra("isLogin", true);
-                startActivity(intent_login);
+
+                if (token.equals("")) {
+                    Intent intent_login = new Intent(getContext(), RegisterActivity.class);
+                    intent_login.putExtra("isLogin", true);
+                    startActivity(intent_login);
+                } else {
+                    showEnterDialog();
+                }
                 break;
         }
     }
@@ -163,4 +174,33 @@ public class WodeFragment extends BaseFragment {
             EventBus.getDefault().unregister(this);
         }
     }
+    public void showEnterDialog() {
+
+        // 创建构建器
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        // 设置参数
+        builder.setTitle("提示")
+                .setMessage("切换账号将会退出已有账户")
+                .setPositiveButton("确认", new DialogInterface.OnClickListener() {// 积极
+
+                    @Override
+                    public void onClick(DialogInterface dialog,
+                                        int which) {
+
+                        NIMClient.getService(AuthService.class).logout();
+                        SPUtils.save("token", "");
+                        Intent intent_login = new Intent(getContext(), RegisterActivity.class);
+                        intent_login.putExtra("isLogin", true);
+                        startActivity(intent_login);
+                    }
+                }).setNegativeButton("取消", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int i) {
+                dialog.dismiss();
+            }
+        });
+
+        builder.create().show();
+    }
+
 }

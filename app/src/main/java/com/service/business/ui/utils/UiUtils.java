@@ -1,6 +1,9 @@
 package com.service.business.ui.utils;
 
+import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -11,6 +14,7 @@ import android.widget.ListView;
 
 
 import com.service.business.R;
+import com.service.business.ui.activity.RegisterActivity;
 import com.service.business.ui.base.BaseApplication;
 
 import org.json.JSONObject;
@@ -351,5 +355,29 @@ public class UiUtils {
         JSONObject jsonObject = (JSONObject) JSONObject.wrap(map);
         String content = jsonObject.toString();
         return content;
+    }
+
+    public static  void showLoginDialog(final Activity activity) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(activity);
+        // 设置参数
+        builder.setTitle("提示")
+                .setMessage("请先登录")
+                .setPositiveButton("确认", new DialogInterface.OnClickListener() {// 积极
+
+                    @Override
+                    public void onClick(DialogInterface dialog,
+                                        int which) {
+                        Intent intent = new Intent(activity, RegisterActivity.class);
+                        intent.putExtra("isLogin", true);
+                        activity.startActivity(intent);
+                    }
+                }).setNegativeButton("取消", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int i) {
+                dialog.dismiss();
+            }
+        });
+
+        builder.create().show();
     }
 }

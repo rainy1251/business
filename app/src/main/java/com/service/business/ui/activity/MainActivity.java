@@ -60,9 +60,11 @@ public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedCh
         }
 
     }
+
     public static void logout(Context context, boolean b) {
 
     }
+
     @Override
     public void initData() {
         fragments = new ArrayList<Fragment>();
@@ -83,9 +85,7 @@ public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedCh
     public void onCheckedChanged(RadioGroup group, int checkedId) {
         switch (checkedId) {
             case R.id.rb_menu_home:
-               changeFragment(0);
-//                Intent intent = new Intent(this, SessionListActivity.class);
-//             startActivity(intent);
+                changeFragment(0);
                 break;
             case R.id.rb_menu_find:
                 changeFragment(1);

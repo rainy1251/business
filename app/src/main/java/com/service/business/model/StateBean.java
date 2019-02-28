@@ -12,11 +12,13 @@ public class StateBean implements Serializable {
     public class DatasBean implements Serializable {
         public String token;
         public String tokenExpire;
+        public String imToken;
         public UserBean userInfo;
 
         public class UserBean implements Serializable {
             public String avatarUrl;
             public String userId;
+            public int type;
 
         }
     }

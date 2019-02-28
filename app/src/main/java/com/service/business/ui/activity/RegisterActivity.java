@@ -21,6 +21,7 @@ import com.service.business.model.StateBean;
 import com.service.business.net.GenericsCallback;
 import com.service.business.net.JsonGenericsSerializator;
 import com.service.business.ui.base.BaseActivity;
+import com.service.business.ui.utils.MyLog;
 import com.service.business.ui.utils.MyToast;
 import com.service.business.ui.utils.NetUtils;
 import com.service.business.ui.utils.UiUtils;
@@ -208,7 +209,6 @@ public class RegisterActivity extends BaseActivity implements RadioGroup.OnCheck
      * 注册
      */
     private void getRegister(String api, String content) {
-
         NetUtils.getBuildByPostToken(api, content)
                 .execute(new GenericsCallback<StateBean>(new JsonGenericsSerializator(), etUsername) {
                     @Override
@@ -219,12 +219,13 @@ public class RegisterActivity extends BaseActivity implements RadioGroup.OnCheck
                             String token = response.data.token;
                             SPUtils.save("token", token);
                             SPUtils.save("userId", userId);
-                            if (isLogin) {
-                                requestIMSign("/app/im/refreshToken", userId, token);
-                            } else {
-                                requestIMSign("/app/im/getIMToken", userId, token);
-                            }
-
+//                            if (isLogin) {
+//                                requestIMSign("/app/im/refreshToken", userId, token);
+//                            } else {
+//                                requestIMSign("/app/im/getIMToken", userId, token);
+//                            }
+                            doLogin(userId, response.data.imToken);
+                            SPUtils.save("IMToken", response.data.imToken);
                             if (!isLogin) {
                                 //Intent intent = new Intent(RegisterActivity.this, EditUserDetailActivity.class);
                                 //startActivity(intent);
