@@ -7,6 +7,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.service.business.R;
+import com.service.business.model.AllCategoryBean;
 import com.service.business.model.GoodsOneBean;
 import com.service.business.model.GoodsThreeBean;
 import com.service.business.net.GenericsCallback;
@@ -35,13 +36,14 @@ public class SelectGoodsActivity extends BaseActivity {
     GridView lvDetail;
     @BindView(R.id.tv_right)
     TextView tv_right;
-    private ArrayList<GoodsOneBean.DatasBean> dataOne;
+
     private OneAdapter oneAdapter;
     private TwoAdapter twoAdapter;
-    private ArrayList<GoodsOneBean.DatasBean> dataTwo;
     private ArrayList<GoodsThreeBean.ItemBean.ListBean> dataThree;
     private ArrayList<GoodsThreeBean.ItemBean.ListBean> goodsList=new ArrayList<>();
     private ThreeAdapter threeAdapter;
+    private ArrayList<AllCategoryBean.DatasBean.TreeBean> treeList;
+    private ArrayList<AllCategoryBean.DatasBean.TreeBean.ChildrenBean> children;
 
     @Override
     public int getLayoutId() {
@@ -63,22 +65,26 @@ public class SelectGoodsActivity extends BaseActivity {
         lvTwo.setAdapter(twoAdapter);
         threeAdapter = new ThreeAdapter(this);
         lvDetail.setAdapter(threeAdapter);
-        requeastGoodsOne();
+        requeastAllCategory();
     }
 
     @Override
     protected void initListener() {
         lvOne.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+
+
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                String one_value = dataOne.get(position).value;
-                requeastGoodsTwo(one_value);
+                children = treeList.get(position).children;
+                twoAdapter.addData(children, true);
+                threeAdapter.clearData();
             }
         });
         lvTwo.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                String two_value = dataTwo.get(position).value;
+                String two_value = children.get(position).id;
                 requeastGoodsDetail(two_value);
             }
         });
@@ -107,25 +113,14 @@ public class SelectGoodsActivity extends BaseActivity {
     }
 
 
-    private void requeastGoodsOne() {
-        NetUtils.getBuildByGet("/app/category/catLevelOne").execute(new GenericsCallback<GoodsOneBean>(new JsonGenericsSerializator()) {
+    private void requeastAllCategory() {
+        NetUtils.getBuildByGet("/app/category/queryAllCategory").execute(new GenericsCallback<AllCategoryBean>(new JsonGenericsSerializator()) {
             @Override
-            public void onResponse(GoodsOneBean response, int id) {
-                dataOne = response.data;
-                if (dataOne.size() > 0) {
-                    oneAdapter.addData(dataOne, true);
+            public void onResponse(AllCategoryBean response, int id) {
+                treeList = response.data.tree;
+                if (treeList.size() > 0) {
+                    oneAdapter.addData(treeList, true);
                 }
-            }
-        });
-    }
-
-    private void requeastGoodsTwo(String value) {
-        NetUtils.getBuildByGet("/app/category/catLevelTwo").execute(new GenericsCallback<GoodsOneBean>(new JsonGenericsSerializator()) {
-
-            @Override
-            public void onResponse(GoodsOneBean response, int id) {
-                dataTwo = response.data;
-                twoAdapter.addData(dataTwo, true);
             }
         });
     }

@@ -194,6 +194,10 @@ public class GoodsListActivity extends BaseActivity {
         }
     }
 
+    /**
+     * 创建订单
+     * @param content
+     */
     public void createOrder(String content) {
         NetUtils.getBuildByPostToken("/app/order/createOrder", content).execute(new GenericsCallback<StateBean>(new JsonGenericsSerializator()) {
             @Override

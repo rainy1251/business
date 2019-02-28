@@ -80,6 +80,11 @@ public abstract class DefaultAdapter<T> extends BaseAdapter {
         notifyDataSetChanged();
     }
 
+    public void clearData() {
+        datas.clear();
+        notifyDataSetChanged();
+    }
+
     public void loadMoreData(List<T> data) {
 
         if (null == data) {

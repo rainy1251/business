@@ -14,10 +14,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/dark"
-            android:text="fewfew"
-            android:paddingLeft="@dimen/dp_5"
-            android:paddingRight="@dimen/dp_5"
-            android:paddingBottom="@dimen/dp_2"
             android:textStyle="bold"
             android:textSize="@dimen/sp_14"
             android:paddingTop="@dimen/dp_2"
@@ -27,15 +23,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/sq_price"
-            android:text="fewfew"
             android:layout_below="@+id/tv_goods"
-            android:paddingLeft="@dimen/dp_5"
-            android:paddingRight="@dimen/dp_5"
             android:paddingBottom="@dimen/dp_2"
             android:textStyle="bold"
-            android:layout_marginTop="@dimen/dp_20"
+            android:layout_marginTop="@dimen/dp_15"
             android:textSize="@dimen/sp_14"
-            android:paddingTop="@dimen/dp_2"
             android:id="@+id/tv_price"/>
 
         <LinearLayout

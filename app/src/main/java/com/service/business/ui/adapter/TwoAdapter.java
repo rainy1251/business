@@ -5,6 +5,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.service.business.R;
+import com.service.business.model.AllCategoryBean;
 import com.service.business.model.GoodsOneBean;
 import com.service.business.ui.adapter.base.BaseHolder;
 import com.service.business.ui.adapter.base.DefaultAdapter;
@@ -27,7 +28,7 @@ public class TwoAdapter extends DefaultAdapter {
     }
 
 
-    public class ViewHolder extends BaseHolder<GoodsOneBean.DatasBean> {
+    public class ViewHolder extends BaseHolder<AllCategoryBean.DatasBean.TreeBean.ChildrenBean> {
 
 
         @BindView(R.id.tv_goods)
@@ -41,7 +42,7 @@ public class TwoAdapter extends DefaultAdapter {
         }
 
         @Override
-        protected void refreshView(final GoodsOneBean.DatasBean resultBean, int position) {
+        protected void refreshView(final AllCategoryBean.DatasBean.TreeBean.ChildrenBean resultBean, int position) {
             tvGoods.setText(resultBean.label);
         }
     }

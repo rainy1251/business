@@ -128,9 +128,6 @@ public class RecentContactsFragment extends TFragment {
         emptyBg = findView(R.id.emptyBg);
         emptyHint = findView(R.id.message_list_empty_hint);
         StatusCode status = NIMClient.getStatus();
-        if (status.equals("UNLOGIN")){
-
-        }
     }
     /**
      * 初始化消息列表

@@ -1,5 +1,9 @@
 package com.service.business.ui.activity;
 
+import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -37,7 +41,7 @@ import java.util.Map;
 import butterknife.BindView;
 import butterknife.OnClick;
 
-public class RegisterActivity extends BaseActivity implements RadioGroup.OnCheckedChangeListener{
+public class RegisterActivity extends BaseActivity implements RadioGroup.OnCheckedChangeListener {
     @BindView(R.id.et_username)
     EditText etUsername;
     @BindView(R.id.et_code)
@@ -66,7 +70,7 @@ public class RegisterActivity extends BaseActivity implements RadioGroup.OnCheck
     RadioButton rbp;
     private boolean isLogin;
     private String api;
-    private  String type="1";
+    private String type = "1";
 
     @Override
     public int getLayoutId() {
@@ -157,9 +161,9 @@ public class RegisterActivity extends BaseActivity implements RadioGroup.OnCheck
                 Map<String, String> map = new HashMap();
                 map.put("username", nickname);
                 map.put("password", password);
-                if (isLogin){
+                if (isLogin) {
                     api = "/app/auth/login";
-                }else{
+                } else {
                     map.put("mobile", mobile);
                     map.put("code", code);
                     map.put("type", type);
@@ -230,11 +234,14 @@ public class RegisterActivity extends BaseActivity implements RadioGroup.OnCheck
                                 //Intent intent = new Intent(RegisterActivity.this, EditUserDetailActivity.class);
                                 //startActivity(intent);
 
-                            }else{
+                            } else {
                                 MyToast.show("登陆成功");
                             }
                             finish();
                             EventBus.getDefault().post(new MessageUpDataUIEvent("更新"));
+                        } else if (response.errno == 403) {
+                            MyToast.show(response.errmsg);
+                            showLoginDialog();
                         } else {
                             MyToast.show(response.errmsg);
                         }
@@ -283,7 +290,7 @@ public class RegisterActivity extends BaseActivity implements RadioGroup.OnCheck
                 MyToast.show("登录IM成功");
                 String account = param.getAccount();
                 String token = param.getToken();
-               SPUtils.save(Contents.IMAccoune, account);
+                SPUtils.save(Contents.IMAccoune, account);
                 SPUtils.save(Contents.IMToken, token);
                 NimUIKit.setAccount(account);
                 AVChatKit.setAccount(account);
@@ -309,16 +316,42 @@ public class RegisterActivity extends BaseActivity implements RadioGroup.OnCheck
 
         });
     }
+
     @Override
     public void onCheckedChanged(RadioGroup radioGroup, int i) {
         switch (i) {
             case R.id.rb_y:
-                type="1";
+                type = "1";
                 break;
             case R.id.rb_p:
-                type="2";
+                type = "2";
                 break;
 
         }
+    }
+
+    public void showLoginDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(RegisterActivity.this);
+        // 设置参数
+        builder.setTitle("提示")
+                .setMessage("请先注册")
+                .setPositiveButton("确认", new DialogInterface.OnClickListener() {// 积极
+
+                    @Override
+                    public void onClick(DialogInterface dialog,
+                                        int which) {
+                        Intent intent = new Intent(RegisterActivity.this, RegisterActivity.class);
+                        intent.putExtra("isLogin", false);
+                        startActivity(intent);
+                        finish();
+                    }
+                }).setNegativeButton("取消", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int i) {
+                dialog.dismiss();
+            }
+        });
+
+        builder.create().show();
     }
 }
