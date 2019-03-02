@@ -9,9 +9,7 @@ import com.service.business.R;
 import com.service.business.model.GoodsThreeBean;
 import com.service.business.ui.adapter.base.BaseHolder;
 import com.service.business.ui.adapter.base.DefaultAdapter;
-import com.service.business.ui.view.ExpandTabView;
-import com.service.business.ui.view.MessageUpDataPriceEvent;
-import com.service.business.ui.view.MessageUpDataUIEvent;
+import com.service.business.ui.event.MessageUpDataPriceEvent;
 
 import org.greenrobot.eventbus.EventBus;
 

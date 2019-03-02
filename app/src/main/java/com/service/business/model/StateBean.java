@@ -18,6 +18,7 @@ public class StateBean implements Serializable {
         public class UserBean implements Serializable {
             public String avatarUrl;
             public String userId;
+            public String nickName;
             public int type;
 
         }

@@ -96,7 +96,6 @@ public class IMConfig {
     public static LoginInfo loginInfo() {
         String account = SPUtils.getString(Contents.IMAccoune);
         String token = SPUtils.getString(Contents.IMToken);
-        MyLog.show(account+"\n"+token);
         if (TextUtils.isEmpty(account) || TextUtils.isEmpty(token)) {
 
             return null;

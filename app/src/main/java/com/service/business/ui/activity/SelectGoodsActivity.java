@@ -8,7 +8,6 @@ import android.widget.TextView;
 
 import com.service.business.R;
 import com.service.business.model.AllCategoryBean;
-import com.service.business.model.GoodsOneBean;
 import com.service.business.model.GoodsThreeBean;
 import com.service.business.net.GenericsCallback;
 import com.service.business.net.JsonGenericsSerializator;
@@ -18,7 +17,7 @@ import com.service.business.ui.adapter.TwoAdapter;
 import com.service.business.ui.base.BaseActivity;
 import com.service.business.ui.utils.MyToast;
 import com.service.business.ui.utils.NetUtils;
-import com.service.business.ui.view.MessageEvent;
+import com.service.business.ui.event.MessageEvent;
 
 import org.greenrobot.eventbus.EventBus;
 

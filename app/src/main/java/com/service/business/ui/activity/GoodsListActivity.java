@@ -5,8 +5,6 @@ import android.content.Intent;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.PopupWindow;
@@ -22,12 +20,11 @@ import com.service.business.net.GenericsCallback;
 import com.service.business.net.JsonGenericsSerializator;
 import com.service.business.ui.adapter.ShopListAdapter;
 import com.service.business.ui.base.BaseActivity;
-import com.service.business.ui.utils.MyLog;
 import com.service.business.ui.utils.MyToast;
 import com.service.business.ui.utils.NetUtils;
 import com.service.business.ui.utils.UiUtils;
-import com.service.business.ui.view.MessageEvent;
-import com.service.business.ui.view.MessageUpDataPriceEvent;
+import com.service.business.ui.event.MessageEvent;
+import com.service.business.ui.event.MessageUpDataPriceEvent;
 
 import net.lucode.hackware.magicindicator.buildins.UIUtil;
 
@@ -36,7 +33,6 @@ import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -170,6 +166,7 @@ public class GoodsListActivity extends BaseActivity {
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void Event(MessageEvent messageEvent) {
         selectGoodsList = messageEvent.getMessage();
+        showPop(selectGoodsList);
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
@@ -199,6 +196,7 @@ public class GoodsListActivity extends BaseActivity {
      * @param content
      */
     public void createOrder(String content) {
+       // MyLog.show(content);
         NetUtils.getBuildByPostToken("/app/order/createOrder", content).execute(new GenericsCallback<StateBean>(new JsonGenericsSerializator()) {
             @Override
             public void onResponse(StateBean response, int id) {

@@ -126,8 +126,9 @@
         <activity
             android:name=".ui.activity.SessionListActivity"
             android:screenOrientation="landscape" />
-        <activity android:name=".ui.activity.RegisterActivity"
-            android:windowSoftInputMode="adjustResize|stateHidden"/>
+        <activity
+            android:name=".ui.activity.RegisterActivity"
+            android:windowSoftInputMode="adjustResize|stateHidden" />
 
         <service android:name=".ui.record.RecordingService" />
 
@@ -135,7 +136,9 @@
             android:name=".ui.activity.GoodsListActivity"
             android:windowSoftInputMode="adjustResize|stateHidden" />
         <activity android:name=".ui.activity.SelectGoodsActivity" />
-        <activity android:name=".ui.activity.OrderListActivity"></activity>
+        <activity android:name=".ui.activity.OrderListActivity" />
+        <activity android:name=".ui.activity.OrderDetailActivity"
+            android:screenOrientation="landscape" ></activity>
     </application>
 
 </manifest>

@@ -11,7 +11,6 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.CircleCrop;
 import com.bumptech.glide.request.RequestOptions;
 import com.netease.nim.uikit.SPUtils;
-import com.netease.nim.uikit.api.NimUIKit;
 import com.netease.nimlib.sdk.NIMClient;
 import com.netease.nimlib.sdk.RequestCallbackWrapper;
 import com.netease.nimlib.sdk.auth.AuthService;
@@ -26,7 +25,7 @@ import com.service.business.ui.activity.SessionListActivity;
 import com.service.business.ui.base.BaseFragment;
 import com.service.business.ui.utils.MyToast;
 import com.service.business.ui.utils.NetUtils;
-import com.service.business.ui.view.MessageUpDataUIEvent;
+import com.service.business.ui.event.MessageUpDataUIEvent;
 
 
 import org.greenrobot.eventbus.EventBus;
@@ -189,6 +188,7 @@ public class WodeFragment extends BaseFragment {
 
                         NIMClient.getService(AuthService.class).logout();
                         SPUtils.save("token", "");
+                        SPUtils.save("type", 1);
                         Intent intent_login = new Intent(getContext(), RegisterActivity.class);
                         intent_login.putExtra("isLogin", true);
                         startActivity(intent_login);

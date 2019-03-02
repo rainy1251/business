@@ -1,4 +1,4 @@
-package com.service.business.ui.view;
+package com.service.business.ui.event;
 
 public class MessageUpDataPriceEvent {
     private String message;

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.activity.OrderDetailActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+
+        <include layout="@layout/toolbar" />
+
+        <!--<TextView-->
+            <!--android:id="@+id/tv_orderUserId"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="@dimen/dp_30"-->
+            <!--android:background="@color/sq_user_bg"-->
+            <!--android:gravity="center"-->
+            <!--android:text="客户id："-->
+            <!--android:textColor="@color/sq_price"-->
+            <!--android:textSize="@dimen/sp_14"-->
+            <!--android:textStyle="bold" />-->
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        </android.support.v7.widget.RecyclerView>
+
+    </LinearLayout>
+
+
+</android.support.constraint.ConstraintLayout>

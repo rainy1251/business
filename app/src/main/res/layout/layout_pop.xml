@@ -49,12 +49,14 @@
         <TextView
             android:id="@+id/tv_close"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="@dimen/dp_16"
-            android:padding="@dimen/dp_5"
+            android:paddingLeft="@dimen/dp_10"
+            android:paddingRight="@dimen/dp_10"
             android:text="关闭"
+            android:gravity="center"
             android:textColor="@color/white"
             android:textSize="@dimen/sp_14" />
 

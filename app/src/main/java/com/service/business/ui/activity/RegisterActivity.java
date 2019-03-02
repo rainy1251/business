@@ -1,6 +1,5 @@
 package com.service.business.ui.activity;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -25,11 +24,10 @@ import com.service.business.model.StateBean;
 import com.service.business.net.GenericsCallback;
 import com.service.business.net.JsonGenericsSerializator;
 import com.service.business.ui.base.BaseActivity;
-import com.service.business.ui.utils.MyLog;
 import com.service.business.ui.utils.MyToast;
 import com.service.business.ui.utils.NetUtils;
 import com.service.business.ui.utils.UiUtils;
-import com.service.business.ui.view.MessageUpDataUIEvent;
+import com.service.business.ui.event.MessageUpDataUIEvent;
 import com.service.business.ui.view.TimerCount;
 
 import org.greenrobot.eventbus.EventBus;
@@ -221,19 +219,13 @@ public class RegisterActivity extends BaseActivity implements RadioGroup.OnCheck
                         if (response.errmsg.equals("成功")) {
                             String userId = response.data.userInfo.userId;
                             String token = response.data.token;
+                            int type = response.data.userInfo.type;
                             SPUtils.save("token", token);
                             SPUtils.save("userId", userId);
-//                            if (isLogin) {
-//                                requestIMSign("/app/im/refreshToken", userId, token);
-//                            } else {
-//                                requestIMSign("/app/im/getIMToken", userId, token);
-//                            }
+                            SPUtils.save("type", type);
                             doLogin(userId, response.data.imToken);
                             SPUtils.save("IMToken", response.data.imToken);
                             if (!isLogin) {
-                                //Intent intent = new Intent(RegisterActivity.this, EditUserDetailActivity.class);
-                                //startActivity(intent);
-
                             } else {
                                 MyToast.show("登陆成功");
                             }

@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="@dimen/dp_60"
+        android:layout_marginLeft="@dimen/dp_60"
+        android:layout_marginBottom="@dimen/dp_20">
+
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_20"
+            android:text="留言备注"
+            android:textStyle="bold"
+            android:textColor="@color/dark"
+            android:textSize="@dimen/sp_14" />
+        <TextView
+            android:layout_below="@+id/tv_title"
+            android:id="@+id/tv_liuyan"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_20"
+            android:text="暂无留言"
+            android:textColor="@color/dark"
+            android:textSize="@dimen/sp_12" />
+        <RelativeLayout
+            android:layout_below="@+id/tv_liuyan"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_30"
+            android:layout_alignParentRight="true">
+            <TextView
+                android:id="@+id/tv_ji"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="小计："
+                android:textStyle="bold"
+                android:textColor="@color/dark"
+                android:textSize="@dimen/sp_14" />
+            <TextView
+                android:id="@+id/tv_allprice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="留言备注"
+                android:layout_toRightOf="@+id/tv_ji"
+                android:textStyle="bold"
+                android:textColor="@color/sq_price"
+                android:textSize="@dimen/sp_14" />
+
+
+        </RelativeLayout>
+
+
+    </RelativeLayout>
+
+</LinearLayout>

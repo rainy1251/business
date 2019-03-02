@@ -1,4 +1,4 @@
-package com.service.business.ui.view;
+package com.service.business.ui.event;
 
 import com.service.business.model.GoodsThreeBean;
 
