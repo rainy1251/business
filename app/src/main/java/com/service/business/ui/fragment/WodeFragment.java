@@ -188,6 +188,7 @@ public class WodeFragment extends BaseFragment {
 
                         NIMClient.getService(AuthService.class).logout();
                         SPUtils.save("token", "");
+                        SPUtils.save("userId", "");
                         SPUtils.save("type", 1);
                         Intent intent_login = new Intent(getContext(), RegisterActivity.class);
                         intent_login.putExtra("isLogin", true);

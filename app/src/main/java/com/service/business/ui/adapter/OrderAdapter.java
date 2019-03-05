@@ -58,6 +58,7 @@ public class OrderAdapter extends DefaultAdapter {
             tvOrderSn.setText("订单编号："+resultBean.orderSn);
             tvState.setText("订单状态："+resultBean.orderStatusText);
             tvPrice.setText("订单金额："+resultBean.actualPrice+"元");
+
             int type = SPUtils.getInt("type");
             if (type==0){
                 tv_ok.setVisibility(View.GONE);
@@ -70,7 +71,14 @@ public class OrderAdapter extends DefaultAdapter {
                     }
                 });
             }
+            if (resultBean.orderStatusText.equals("已收货")){
+                tv_ok.setText("已送达");
+                tv_ok.setBackground(context.getResources().getDrawable(R.drawable.yuan_choosed_tag));
+            }else {
+                tv_ok.setText("确认送达");
+                tv_ok.setBackground(context.getResources().getDrawable(R.drawable.yuan_tag));
 
+            }
         }
     }
 

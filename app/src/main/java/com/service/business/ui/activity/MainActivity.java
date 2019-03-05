@@ -23,10 +23,15 @@ import com.netease.nimlib.sdk.auth.AuthServiceObserver;
 import com.service.business.R;
 import com.service.business.avchat.PermissionUtils;
 import com.service.business.ui.base.BaseActivity;
+import com.service.business.ui.event.MessageUpDataUIEvent;
 import com.service.business.ui.fragment.FindFragment;
 import com.service.business.ui.fragment.SystemFragment;
 import com.service.business.ui.fragment.WodeFragment;
 import com.service.business.ui.utils.MyLog;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -61,6 +66,7 @@ public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedCh
                         Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE}
                 , PermissionUtils.REQUEST_Location, this)) {
         }
+        EventBus.getDefault().register(this);
 
     }
 
@@ -227,5 +233,21 @@ public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedCh
 
         alertDialog = builder.create();
         alertDialog.show();
+    }
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void Event(MessageUpDataUIEvent messageEvent) {
+        if (messageEvent.getMessage().equals("更新")) {
+
+            changeFragment(0);
+        }
+    }
+
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (EventBus.getDefault().isRegistered(this)){
+            EventBus.getDefault().unregister(this);
+        }
     }
 }

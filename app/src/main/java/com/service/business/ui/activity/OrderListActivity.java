@@ -83,6 +83,10 @@ public class OrderListActivity extends BaseActivity {
 
     }
 
+    /**
+     * 确认收货
+     * @param orderId
+     */
     private void requeastConfirm(String orderId) {
         Map<String, String> map = new HashMap();
         map.put("orderId", orderId);

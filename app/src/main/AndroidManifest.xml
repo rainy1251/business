@@ -70,7 +70,7 @@
         -->
         <meta-data
             android:name="com.netease.nim.appKey"
-            android:value="2be9fe981bd91341830194a0e1c8dc8e" />
+            android:value="f0068bbf03575ba5f96611f612ee59ec" />
 
         <!-- 云信后台服务，请使用独立进程。 -->
         <service
@@ -137,8 +137,10 @@
             android:windowSoftInputMode="adjustResize|stateHidden" />
         <activity android:name=".ui.activity.SelectGoodsActivity" />
         <activity android:name=".ui.activity.OrderListActivity" />
-        <activity android:name=".ui.activity.OrderDetailActivity"
-            android:screenOrientation="landscape" ></activity>
+        <activity
+            android:name=".ui.activity.OrderDetailActivity"
+            android:screenOrientation="landscape" />
+        <activity android:name=".ui.activity.DistributorActivity"></activity>
     </application>
 
 </manifest>

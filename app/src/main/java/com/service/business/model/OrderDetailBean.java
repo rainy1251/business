@@ -30,7 +30,7 @@ public class OrderDetailBean {
     public static class GoodsBean {
         public String  addTime;
         public boolean  deleted;
-        public int  goodsId;
+        public String  goodsId;
         public String  goodsName;
         public String  goodsSn;
         public String  picUrl;
@@ -41,10 +41,12 @@ public class OrderDetailBean {
         public int  productId;
         public int  version;
 
-        public GoodsBean(String goodsName, int number, String price) {
+        public GoodsBean(String goodsName, int number, String price,String goodsId,String picUrl) {
             this.goodsName = goodsName;
             this.number = number;
             this.price = price;
+            this.goodsId = goodsId;
+            this.picUrl = picUrl;
         }
     }
 

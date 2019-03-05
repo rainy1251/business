@@ -1,6 +1,9 @@
 package com.service.business.ui.activity;
 
+import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -12,6 +15,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
+import com.netease.nim.uikit.SPUtils;
 import com.service.business.R;
 import com.service.business.model.GoodsThreeBean;
 import com.service.business.model.OrderDetailBean;
@@ -20,6 +24,8 @@ import com.service.business.net.GenericsCallback;
 import com.service.business.net.JsonGenericsSerializator;
 import com.service.business.ui.adapter.ShopListAdapter;
 import com.service.business.ui.base.BaseActivity;
+import com.service.business.ui.event.MessageDistributorEvent;
+import com.service.business.ui.utils.MyLog;
 import com.service.business.ui.utils.MyToast;
 import com.service.business.ui.utils.NetUtils;
 import com.service.business.ui.utils.UiUtils;
@@ -105,25 +111,42 @@ public class GoodsListActivity extends BaseActivity {
                     MyToast.show("请先选择商品");
                     return;
                 }
-                OrderDetailBean detailBean = new OrderDetailBean();
-                String price = tvallPrice.getText().toString();
-                if (price.contains("元")) {
-                    String[] prices = price.split("元");
-                    detailBean.actualPrice = prices[0];
-                }
-                if (orderUserId != null) {
-                    detailBean.userId = orderUserId;
-                }
-                ArrayList<OrderDetailBean.GoodsBean> orderGoods = new ArrayList<>();
-                detailBean.orderGoods = orderGoods;
-                for (int i = 0; i < datas.size(); i++) {
-                    OrderDetailBean.GoodsBean goodsBean = new OrderDetailBean.GoodsBean(datas.get(i).name, datas.get(i).num, datas.get(i).retailPrice);
-                    detailBean.orderGoods.add(goodsBean);
-                }
-                String s = new Gson().toJson(detailBean);
-                createOrder(s);
+                showChooseDialog();
+
                 break;
         }
+    }
+
+    /**
+     * 获取订单json
+     */
+    private void getOrderContent(String distributorId) {
+        ArrayList<GoodsThreeBean.ItemBean.ListBean> datas = (ArrayList<GoodsThreeBean.ItemBean.ListBean>) allAdapter.getDatas();
+        OrderDetailBean detailBean = new OrderDetailBean();
+        String price = tvallPrice.getText().toString();
+        if (price.contains("元")) {
+            String[] prices = price.split("元");
+            detailBean.actualPrice = prices[0];
+        }
+        if (orderUserId != null) {
+            detailBean.userId = orderUserId;
+        }
+        detailBean.shipChannel=distributorId;
+        String userId = SPUtils.getString("userId");
+        if (userId!=null){
+
+            detailBean.shipSn=userId;
+        }
+        ArrayList<OrderDetailBean.GoodsBean> orderGoods = new ArrayList<>();
+        detailBean.orderGoods = orderGoods;
+        for (int i = 0; i < datas.size(); i++) {
+            OrderDetailBean.GoodsBean goodsBean = new OrderDetailBean.GoodsBean(datas.get(i).name,
+                    datas.get(i).num, datas.get(i).retailPrice,datas.get(i).id,datas.get(i).picUrl);
+            detailBean.orderGoods.add(goodsBean);
+        }
+        String s = new Gson().toJson(detailBean);
+
+        createOrder(s);
     }
 
     /**
@@ -181,7 +204,13 @@ public class GoodsListActivity extends BaseActivity {
             tvallPrice.setText(allPrice + "元");
         }
     }
-
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void Event(MessageDistributorEvent messageEvent) {
+        if (messageEvent.getMessage()!=null) {
+            String distributorId = messageEvent.getMessage();
+            getOrderContent(distributorId);
+        }
+    }
 
     @Override
     public void onDestroy() {
@@ -205,8 +234,36 @@ public class GoodsListActivity extends BaseActivity {
                     if (mPopWindow != null) {
                         mPopWindow.dismiss();
                     }
+                }else if (response.errno==403){
+                    MyToast.show(response.errmsg);
                 }
             }
         });
     }
+
+    public  void showChooseDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        // 设置参数
+        builder.setTitle("提示")
+                .setMessage("请先选择配送商")
+                .setPositiveButton("确认", new DialogInterface.OnClickListener() {// 积极
+
+                    @Override
+                    public void onClick(DialogInterface dialog,
+                                        int which) {
+                        Intent intent = new Intent(GoodsListActivity.this, DistributorActivity.class);
+                        startActivity(intent);
+                    }
+                }).setNegativeButton("取消", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int i) {
+                dialog.dismiss();
+            }
+        });
+
+        builder.create().show();
+    }
+
+
+
 }
