@@ -24,6 +24,7 @@ import com.service.business.model.StateBean;
 import com.service.business.net.GenericsCallback;
 import com.service.business.net.JsonGenericsSerializator;
 import com.service.business.ui.base.BaseActivity;
+import com.service.business.ui.utils.MyLog;
 import com.service.business.ui.utils.MyToast;
 import com.service.business.ui.utils.NetUtils;
 import com.service.business.ui.utils.UiUtils;
@@ -231,51 +232,54 @@ public class RegisterActivity extends BaseActivity implements RadioGroup.OnCheck
                             }
                             finish();
                             EventBus.getDefault().post(new MessageUpDataUIEvent("更新"));
-                        } else if (response.errno == 403) {
+                        } else if (response.errmsg.contains("审核")) {
+                            MyToast.show(response.errmsg);
+
+                        } else if(response.errmsg.contains("不存在")) {
                             MyToast.show(response.errmsg);
                             showLoginDialog();
-                        } else {
+                        }else {
                             MyToast.show(response.errmsg);
                         }
                     }
                 });
     }
 
-    /**
-     * 请求im登陆令牌
-     *
-     * @param userId
-     * @param token
-     */
-    private void requestIMSign(String api, final String userId, final String token) {
-
-        NetUtils.getBuildByGet(api)
-                .execute(new GenericsCallback<IMBean>(new JsonGenericsSerializator(), etUsername) {
-                    @Override
-                    public void onResponse(IMBean response, int id) {
-
-                        if (response.errno == 0) {
-
-                            int index1 = response.data.indexOf("token\":\"");
-                            int index2 = response.data.indexOf("\",\"accid\"");
-                            if (index2 - index1 > 8) {
-
-                                String IMToken = response.data.substring(index1 + 8, index2);
-                                doLogin(userId, IMToken);
-                                SPUtils.save("IMToken", IMToken);
-                            }
-                        }
-
-
-                    }
-
-                });
-
-    }
+//    /**
+//     * 请求im登陆令牌
+//     *
+//     * @param userId
+//     * @param token
+//     */
+//    private void requestIMSign(String api, final String userId, final String token) {
+//
+//        NetUtils.getBuildByGet(api)
+//                .execute(new GenericsCallback<IMBean>(new JsonGenericsSerializator(), etUsername) {
+//                    @Override
+//                    public void onResponse(IMBean response, int id) {
+//
+//                        if (response.errno == 0) {
+//
+//                            int index1 = response.data.indexOf("token\":\"");
+//                            int index2 = response.data.indexOf("\",\"accid\"");
+//                            if (index2 - index1 > 8) {
+//
+//                                String IMToken = response.data.substring(index1 + 8, index2);
+//                                doLogin(userId, IMToken);
+//                                SPUtils.save("IMToken", IMToken);
+//                            }
+//                        }
+//
+//
+//                    }
+//
+//                });
+//
+//    }
 
     public void doLogin(String account, String token) {
 
-
+        //MyLog.show(account+"\n"+token);
         AbortableFuture<LoginInfo> loginRequest = NimUIKit.login(new LoginInfo(account, token), new RequestCallback<LoginInfo>() {
             @Override
             public void onSuccess(LoginInfo param) {
@@ -293,6 +297,7 @@ public class RegisterActivity extends BaseActivity implements RadioGroup.OnCheck
 
                 if (code == 302 || code == 404) {
                     MyToast.show("登录IM失败");
+                    MyLog.show(code+"===code");
                 } else {
                     MyToast.show("登录IM失败:" + code);
                 }

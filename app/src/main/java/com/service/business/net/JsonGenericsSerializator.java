@@ -1,7 +1,6 @@
 package com.service.business.net;
 
 import com.google.gson.Gson;
-import com.service.business.ui.utils.MyLog;
 
 /**
  * Created by JimGong on 2016/6/23.
