@@ -3,6 +3,7 @@ package com.service.business.ui.activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -11,6 +12,8 @@ import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.hyphenate.EMCallBack;
+import com.hyphenate.chat.EMClient;
 import com.netease.nim.avchatkit.AVChatKit;
 import com.netease.nim.uikit.Contents;
 import com.netease.nim.uikit.SPUtils;
@@ -19,6 +22,8 @@ import com.netease.nimlib.sdk.AbortableFuture;
 import com.netease.nimlib.sdk.RequestCallback;
 import com.netease.nimlib.sdk.auth.LoginInfo;
 import com.service.business.R;
+import com.service.business.hxim.ChatListActivity;
+import com.service.business.hxim.DemoHelper;
 import com.service.business.model.IMBean;
 import com.service.business.model.StateBean;
 import com.service.business.net.GenericsCallback;
@@ -276,42 +281,69 @@ public class RegisterActivity extends BaseActivity implements RadioGroup.OnCheck
 //                });
 //
 //    }
+//TODO 网易云信登录
+//    public void doLogin(String account, String token) {
+//
+//        //MyLog.show(account+"\n"+token);
+//        AbortableFuture<LoginInfo> loginRequest = NimUIKit.login(new LoginInfo(account, token), new RequestCallback<LoginInfo>() {
+//            @Override
+//            public void onSuccess(LoginInfo param) {
+//                MyToast.show("登录IM成功");
+//                String account = param.getAccount();
+//                String token = param.getToken();
+//                SPUtils.save(Contents.IMAccoune, account);
+//                SPUtils.save(Contents.IMToken, token);
+//                NimUIKit.setAccount(account);
+//                AVChatKit.setAccount(account);
+//            }
+//
+//            @Override
+//            public void onFailed(int code) {
+//
+//                if (code == 302 || code == 404) {
+//                    MyToast.show("登录IM失败");
+//                    MyLog.show(code+"===code");
+//                } else {
+//                    MyToast.show("登录IM失败:" + code);
+//                }
+//
+//            }
+//
+//            @Override
+//            public void onException(Throwable exception) {
+//                MyToast.show("登录IM异常");
+//
+//            }
+//
+//
+//        });
+//    }
 
     public void doLogin(String account, String token) {
 
-        //MyLog.show(account+"\n"+token);
-        AbortableFuture<LoginInfo> loginRequest = NimUIKit.login(new LoginInfo(account, token), new RequestCallback<LoginInfo>() {
-            @Override
-            public void onSuccess(LoginInfo param) {
-                MyToast.show("登录IM成功");
-                String account = param.getAccount();
-                String token = param.getToken();
-                SPUtils.save(Contents.IMAccoune, account);
-                SPUtils.save(Contents.IMToken, token);
-                NimUIKit.setAccount(account);
-                AVChatKit.setAccount(account);
-            }
-
-            @Override
-            public void onFailed(int code) {
-
-                if (code == 302 || code == 404) {
-                    MyToast.show("登录IM失败");
-                    MyLog.show(code+"===code");
-                } else {
-                    MyToast.show("登录IM失败:" + code);
-                }
-
-            }
-
-            @Override
-            public void onException(Throwable exception) {
-                MyToast.show("登录IM异常");
-
-            }
-
-
-        });
+        MyLog.show(account+"\n"+token);
+//        EMClient.getInstance().login(account, token, new EMCallBack() {//回调
+//            @Override
+//            public void onSuccess() {
+//                EMClient.getInstance().groupManager().loadAllGroups();
+//                EMClient.getInstance().chatManager().loadAllConversations();
+//                Log.d("main", "登录聊天服务器成功！");
+//                DemoHelper.getInstance().getUserProfileManager().asyncGetCurrentUserInfo();
+//                Intent intent = new Intent(RegisterActivity.this, ChatListActivity.class);
+//                startActivity(intent);
+//                finish();
+//            }
+//
+//            @Override
+//            public void onProgress(int progress, String status) {
+//
+//            }
+//
+//            @Override
+//            public void onError(int code, String message) {
+//                Log.d("main", "登录聊天服务器失败！" + message + "," + code);
+//            }
+//        });
     }
 
     @Override
