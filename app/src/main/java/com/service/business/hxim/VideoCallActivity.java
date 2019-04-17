@@ -95,6 +95,7 @@ public class VideoCallActivity extends CallActivity implements OnClickListener {
     private Button toggleVideoBtn;
 
     private BrightnessDataProcess dataProcessor = new BrightnessDataProcess();
+    private String nickname;
 
     // dynamic adjust brightness
     class BrightnessDataProcess implements EMCameraDataProcessor {
@@ -176,7 +177,12 @@ public class VideoCallActivity extends CallActivity implements OnClickListener {
         isInComingCall = getIntent().getBooleanExtra("isComingCall", false);
         username = getIntent().getStringExtra("username");
 
-        nickTextView.setText(username);
+        nickname = getIntent().getStringExtra("nickname");
+        if (nickname != null) {
+            nickTextView.setText(nickname);
+        } else {
+            nickTextView.setText(username);
+        }
 
         // local surfaceview
         localSurface = (EMCallSurfaceView) findViewById(R.id.local_surface);

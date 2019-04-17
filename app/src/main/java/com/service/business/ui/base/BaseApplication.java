@@ -13,12 +13,9 @@ import com.hyphenate.push.PushListener;
 import com.hyphenate.util.EMLog;
 import com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout;
 import com.lcodecore.tkrefreshlayout.header.progresslayout.ProgressLayout;
-import com.service.business.ui.utils.SPUtils;
-import com.netease.nimlib.sdk.NIMClient;
-import com.service.business.avchat.DemoCache;
-import com.service.business.avchat.IMConfig;
 import com.service.business.hxim.CallReceiver;
 import com.service.business.hxim.DemoHelper;
+import com.service.business.ui.utils.SPUtils;
 import com.service.business.ui.view.MyLoadingView;
 
 
@@ -41,7 +38,6 @@ public class BaseApplication extends Application {
         initRefreshLayout();
         SPUtils.instance(this);
         MultiDex.install(this);
-      //getInitIM();
         getInitHXIM();
 
     }
@@ -73,14 +69,7 @@ public class BaseApplication extends Application {
 
     }
 
-    private void getInitIM() {
-        DemoCache.setContext(getApplicationContext());
-        SPUtils.instance(getApplicationContext());
-        // SDK初始化（启动后台服务，若已经存在用户登录信息， SDK 将完成自动登录）
-        NIMClient.init(this, IMConfig.loginInfo(), IMConfig.options(getApplicationContext()));
-        // crash handler
-        IMConfig.initUiKit(getApplicationContext());
-    }
+
 
     /**
      * 初始化下拉刷新控件

@@ -50,5 +50,5 @@ dependencies {
     api 'jp.wasabeef:glide-transformations:3.0.1'
     //api 'jp.co.cyberagent.android.gpuimage:gpuimage-library:1.4.1' // if you want to use the Glide GPU Filters
     implementation 'com.android.support:recyclerview-v7:28.0.0'
-    api project(':avchatkit')
+
 }

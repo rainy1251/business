@@ -1,1 +1,1 @@
-include ':app', ':uikit', ':avchatkit', ':faceunity', ':rtskit', ':easeui'
+include ':app', ':easeui'

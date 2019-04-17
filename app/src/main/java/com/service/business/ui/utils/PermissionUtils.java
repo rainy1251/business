@@ -1,4 +1,4 @@
-package com.service.business.avchat;
+package com.service.business.ui.utils;
 
 import android.app.Activity;
 import android.content.Context;

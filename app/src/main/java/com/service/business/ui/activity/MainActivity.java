@@ -15,20 +15,14 @@ import android.view.KeyEvent;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
-import com.netease.nim.uikit.business.recent.RecentContactsFragment;
-import com.netease.nimlib.sdk.NIMClient;
-import com.netease.nimlib.sdk.Observer;
-import com.netease.nimlib.sdk.StatusCode;
-import com.netease.nimlib.sdk.auth.AuthServiceObserver;
 import com.service.business.R;
-import com.service.business.avchat.PermissionUtils;
 import com.service.business.hxim.ConversationListFragment;
 import com.service.business.ui.base.BaseActivity;
 import com.service.business.ui.event.MessageUpDataUIEvent;
 import com.service.business.ui.fragment.FindFragment;
 import com.service.business.ui.fragment.SystemFragment;
 import com.service.business.ui.fragment.WodeFragment;
-import com.service.business.ui.utils.MyLog;
+import com.service.business.ui.utils.PermissionUtils;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -88,22 +82,7 @@ public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedCh
 
     @Override
     protected void initListener() {
-//        NIMClient.getService(AuthServiceObserver.class).observeOnlineStatus(
-//                new Observer<StatusCode>() {
-//                    public void onEvent(StatusCode status) {
-//                        MyLog.show(status.toString());
-//
-//                        if (status.toString().equals("UNLOGIN")) {
-//                            showLoginDialog();
-//
-//                        } else if (status.toString().equals("LOGINED")) {
-//                            if (alertDialog != null) {
-//
-//                                alertDialog.dismiss();
-//                            }
-//                        }
-//                    }
-//                }, true);
+
     }
 
     @Override
@@ -114,8 +93,7 @@ public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedCh
                 break;
             case R.id.rb_menu_find:
                 changeFragment(1);
-//                Intent intent = new Intent(this, FindActivity.class);
-//                startActivity(intent);
+
                 break;
             case R.id.rb_menu_system:
 

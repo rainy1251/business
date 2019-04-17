@@ -1,9 +1,7 @@
 package com.service.business.ui.activity;
 
-import com.netease.nim.uikit.api.NimUIKit;
 import com.service.business.R;
 import com.service.business.ui.base.BaseActivity;
-import com.service.business.ui.utils.MyToast;
 
 
 public class SessionListActivity extends BaseActivity {
@@ -22,9 +20,6 @@ public class SessionListActivity extends BaseActivity {
 
     @Override
     public void initData() {
-        if (NimUIKit.getAccount()==null){
-            MyToast.show("请登录");
-        }
 
     }
 

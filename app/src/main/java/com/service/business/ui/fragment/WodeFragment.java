@@ -10,27 +10,21 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.CircleCrop;
 import com.bumptech.glide.request.RequestOptions;
-import com.service.business.hxim.ChatListActivity;
-import com.service.business.ui.utils.SPUtils;
-import com.netease.nimlib.sdk.uinfo.constant.UserInfoFieldEnum;
 import com.service.business.R;
+import com.service.business.hxim.ChatListActivity;
 import com.service.business.model.UserInfoBean;
 import com.service.business.net.GenericsCallback;
 import com.service.business.net.JsonGenericsSerializator;
 import com.service.business.ui.activity.RegisterActivity;
-import com.service.business.ui.activity.SessionListActivity;
 import com.service.business.ui.base.BaseFragment;
+import com.service.business.ui.event.MessageUpDataUIEvent;
 import com.service.business.ui.utils.MyToast;
 import com.service.business.ui.utils.NetUtils;
-import com.service.business.ui.event.MessageUpDataUIEvent;
-
+import com.service.business.ui.utils.SPUtils;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
-
-import java.util.HashMap;
-import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.OnClick;
