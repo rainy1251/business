@@ -1,6 +1,5 @@
 package com.service.business.ui.activity;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -15,7 +14,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
-import com.netease.nim.uikit.SPUtils;
+import com.service.business.ui.utils.SPUtils;
 import com.service.business.R;
 import com.service.business.model.GoodsThreeBean;
 import com.service.business.model.OrderDetailBean;
@@ -25,7 +24,6 @@ import com.service.business.net.JsonGenericsSerializator;
 import com.service.business.ui.adapter.ShopListAdapter;
 import com.service.business.ui.base.BaseActivity;
 import com.service.business.ui.event.MessageDistributorEvent;
-import com.service.business.ui.utils.MyLog;
 import com.service.business.ui.utils.MyToast;
 import com.service.business.ui.utils.NetUtils;
 import com.service.business.ui.utils.UiUtils;

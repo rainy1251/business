@@ -14,22 +14,12 @@ import android.widget.TextView;
 
 import com.hyphenate.EMCallBack;
 import com.hyphenate.chat.EMClient;
-import com.netease.nim.avchatkit.AVChatKit;
-import com.netease.nim.uikit.Contents;
-import com.netease.nim.uikit.SPUtils;
-import com.netease.nim.uikit.api.NimUIKit;
-import com.netease.nimlib.sdk.AbortableFuture;
-import com.netease.nimlib.sdk.RequestCallback;
-import com.netease.nimlib.sdk.auth.LoginInfo;
+import com.service.business.ui.utils.SPUtils;
 import com.service.business.R;
-import com.service.business.hxim.ChatListActivity;
-import com.service.business.hxim.DemoHelper;
-import com.service.business.model.IMBean;
 import com.service.business.model.StateBean;
 import com.service.business.net.GenericsCallback;
 import com.service.business.net.JsonGenericsSerializator;
 import com.service.business.ui.base.BaseActivity;
-import com.service.business.ui.utils.MyLog;
 import com.service.business.ui.utils.MyToast;
 import com.service.business.ui.utils.NetUtils;
 import com.service.business.ui.utils.UiUtils;
@@ -104,6 +94,7 @@ public class RegisterActivity extends BaseActivity implements RadioGroup.OnCheck
 
     }
 
+
     @Override
     protected void initListener() {
         rgType.setOnCheckedChangeListener(this);
@@ -114,16 +105,16 @@ public class RegisterActivity extends BaseActivity implements RadioGroup.OnCheck
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.tv_getCode:
-                String username = etUsername.getText().toString().trim();
-                if (UiUtils.isMobile(username)) {
-                    Map<String, String> map = new HashMap();
-                    map.put("mobile", username);
-                    String postContent = getPostContent(map);
-                    String api = "/app/auth/regCaptcha";
-                    getCode(api, postContent);
-                } else {
-                    MyToast.show("请输入正确的手机号");
-                }
+//                String username = etUsername.getText().toString().trim();
+//                if (UiUtils.isMobile(username)) {
+//                    Map<String, String> map = new HashMap();
+//                    map.put("mobile", username);
+//                    String postContent = getPostContent(map);
+//                    String api = "/app/auth/regCaptcha";
+//                    getCode(api, postContent);
+//                } else {
+//                    MyToast.show("请输入正确的手机号");
+//                }
                 break;
             case R.id.tv_register:
                 String mobile = etUsername.getText().toString().trim();
@@ -229,8 +220,10 @@ public class RegisterActivity extends BaseActivity implements RadioGroup.OnCheck
                             SPUtils.save("token", token);
                             SPUtils.save("userId", userId);
                             SPUtils.save("type", type);
-                            doLogin(userId, response.data.imToken);
-                            SPUtils.save("IMToken", response.data.imToken);
+                            String password = etPassword.getText().toString().trim();
+                            loginIM(userId, password);
+//                            doLogin(userId, response.data.imToken);
+//                            SPUtils.save("IMToken", response.data.imToken);
                             if (!isLogin) {
                             } else {
                                 MyToast.show("登陆成功");
@@ -240,10 +233,10 @@ public class RegisterActivity extends BaseActivity implements RadioGroup.OnCheck
                         } else if (response.errmsg.contains("审核")) {
                             MyToast.show(response.errmsg);
 
-                        } else if(response.errmsg.contains("不存在")) {
+                        } else if (response.errmsg.contains("不存在")) {
                             MyToast.show(response.errmsg);
                             showLoginDialog();
-                        }else {
+                        } else {
                             MyToast.show(response.errmsg);
                         }
                     }
@@ -319,33 +312,49 @@ public class RegisterActivity extends BaseActivity implements RadioGroup.OnCheck
 //        });
 //    }
 
-    public void doLogin(String account, String token) {
+    private void loginIM(String userId, String pwd) {
 
-        MyLog.show(account+"\n"+token);
-//        EMClient.getInstance().login(account, token, new EMCallBack() {//回调
-//            @Override
-//            public void onSuccess() {
-//                EMClient.getInstance().groupManager().loadAllGroups();
-//                EMClient.getInstance().chatManager().loadAllConversations();
-//                Log.d("main", "登录聊天服务器成功！");
-//                DemoHelper.getInstance().getUserProfileManager().asyncGetCurrentUserInfo();
-//                Intent intent = new Intent(RegisterActivity.this, ChatListActivity.class);
+        EMClient.getInstance().login(userId, pwd, new EMCallBack() {//回调
+            @Override
+            public void onSuccess() {
+                EMClient.getInstance().groupManager().loadAllGroups();
+                EMClient.getInstance().chatManager().loadAllConversations();
+                Log.d("main", "登录聊天服务器成功！");
+              //  DemoHelper.getInstance().getUserProfileManager().updateCurrentUserNickName("levi");
+                //DemoHelper.getInstance().getUserProfileManager().asyncGetCurrentUserInfo();
+//                Intent intent = new Intent(RegisterActivity.this, ChatActivity.class);
 //                startActivity(intent);
 //                finish();
-//            }
-//
-//            @Override
-//            public void onProgress(int progress, String status) {
-//
-//            }
-//
-//            @Override
-//            public void onError(int code, String message) {
-//                Log.d("main", "登录聊天服务器失败！" + message + "," + code);
-//            }
-//        });
-    }
+            }
 
+            @Override
+            public void onProgress(int progress, String status) {
+
+            }
+
+            @Override
+            public void onError(int code, String message) {
+                Log.d("main", "登录聊天服务器失败！" + message + "," + code);
+            }
+        });
+    }
+    private void setIMUserName( String username) {
+        Map<String, String> map = new HashMap();
+        map.put("nickname", "frewf");
+        String postContent = getPostContent(map);
+        NetUtils.getBuildByPostToken("/app/im/uinfos/update", postContent)
+                .execute(new GenericsCallback<StateBean>(new JsonGenericsSerializator(), etUsername) {
+                    @Override
+                    public void onResponse(StateBean response, int id) {
+
+                        if (response.errmsg.equals("成功")) {
+
+                        } else {
+                            MyToast.show(response.errmsg);
+                        }
+                    }
+                });
+    }
     @Override
     public void onCheckedChanged(RadioGroup radioGroup, int i) {
         switch (i) {

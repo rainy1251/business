@@ -22,6 +22,7 @@ import com.netease.nimlib.sdk.StatusCode;
 import com.netease.nimlib.sdk.auth.AuthServiceObserver;
 import com.service.business.R;
 import com.service.business.avchat.PermissionUtils;
+import com.service.business.hxim.ConversationListFragment;
 import com.service.business.ui.base.BaseActivity;
 import com.service.business.ui.event.MessageUpDataUIEvent;
 import com.service.business.ui.fragment.FindFragment;
@@ -77,7 +78,7 @@ public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedCh
     @Override
     public void initData() {
         fragments = new ArrayList<Fragment>();
-        fragments.add(new RecentContactsFragment());
+      fragments.add(new ConversationListFragment());
         fragments.add(new FindFragment());
         fragments.add(new SystemFragment());
         fragments.add(new WodeFragment());
@@ -87,22 +88,22 @@ public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedCh
 
     @Override
     protected void initListener() {
-        NIMClient.getService(AuthServiceObserver.class).observeOnlineStatus(
-                new Observer<StatusCode>() {
-                    public void onEvent(StatusCode status) {
-                        MyLog.show(status.toString());
-
-                        if (status.toString().equals("UNLOGIN")) {
-                            showLoginDialog();
-
-                        } else if (status.toString().equals("LOGINED")) {
-                            if (alertDialog != null) {
-
-                                alertDialog.dismiss();
-                            }
-                        }
-                    }
-                }, true);
+//        NIMClient.getService(AuthServiceObserver.class).observeOnlineStatus(
+//                new Observer<StatusCode>() {
+//                    public void onEvent(StatusCode status) {
+//                        MyLog.show(status.toString());
+//
+//                        if (status.toString().equals("UNLOGIN")) {
+//                            showLoginDialog();
+//
+//                        } else if (status.toString().equals("LOGINED")) {
+//                            if (alertDialog != null) {
+//
+//                                alertDialog.dismiss();
+//                            }
+//                        }
+//                    }
+//                }, true);
     }
 
     @Override
@@ -185,10 +186,9 @@ public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedCh
                                 public void onClick(DialogInterface dialog,
                                                     int which) {
                                     dialog.dismiss();
-                                    Process
-                                            .killProcess(Process
-                                                    .myPid());
                                     finish();
+                                    Process.killProcess(Process.myPid());
+
                                 }
                             })
                     .setNegativeButton("取消",

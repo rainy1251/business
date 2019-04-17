@@ -20,13 +20,13 @@ public class ChatListActivity extends AppCompatActivity {
         ConversationListFragment conversationListFragment = new ConversationListFragment();
         getSupportFragmentManager().beginTransaction().add(R.id.container, conversationListFragment).commit();
 
-        conversationListFragment.setConversationListItemClickListener(new EaseConversationListFragment.EaseConversationListItemClickListener() {
-
-            @Override
-            public void onListItemClicked(EMConversation conversation) {
-                startActivity(new Intent(ChatListActivity.this, ChatActivity.class).putExtra(EaseConstant.EXTRA_USER_ID, conversation.conversationId()));
-            }
-        });
+//        conversationListFragment.setConversationListItemClickListener(new EaseConversationListFragment.EaseConversationListItemClickListener() {
+//
+//            @Override
+//            public void onListItemClicked(EMConversation conversation) {
+//                startActivity(new Intent(ChatListActivity.this, ChatActivity.class).putExtra(EaseConstant.EXTRA_USER_ID, conversation.conversationId()));
+//            }
+//        });
 
     }
 }

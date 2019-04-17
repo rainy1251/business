@@ -25,6 +25,7 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.hyphenate.EMCallBack;
@@ -64,6 +65,8 @@ import com.hyphenate.easeui.widget.chatrow.EaseCustomChatRowProvider;
 import com.hyphenate.exceptions.HyphenateException;
 import com.hyphenate.util.EMLog;
 import com.hyphenate.util.PathUtil;
+import com.service.business.ui.activity.GoodsListActivity;
+import com.service.business.ui.utils.UiUtils;
 
 import java.io.File;
 import java.util.List;
@@ -144,6 +147,7 @@ public class EaseChatFragment extends EaseBaseFragment implements EMMessageListe
     private Handler typingHandler = null;
     // "正在输入"功能的开关，打开后本设备发送消息将持续发送cmd类型消息通知对方"正在输入"
     private boolean turnOnTyping;
+    private RelativeLayout order_layout;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -180,6 +184,7 @@ public class EaseChatFragment extends EaseBaseFragment implements EMMessageListe
         // hold to record voice
         //noinspection ConstantConditions
         voiceRecorderView = (EaseVoiceRecorderView) getView().findViewById(com.hyphenate.easeui.R.id.voice_recorder);
+        order_layout = (RelativeLayout) getView().findViewById(com.hyphenate.easeui.R.id.order_layout);
 
         // message list layout
         messageList = (EaseChatMessageList) getView().findViewById(com.hyphenate.easeui.R.id.message_list);
@@ -201,6 +206,17 @@ public class EaseChatFragment extends EaseBaseFragment implements EMMessageListe
         registerExtendMenuItem();
         // init input menu
         inputMenu.init(null);
+        //TODO  跳转
+        order_layout.setVisibility(View.VISIBLE);
+        order_layout.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(UiUtils.getContext(),GoodsListActivity.class );
+                intent.putExtra("orderUserId", toChatUsername);
+                UiUtils.getContext().startActivity(intent);
+            }
+        });
+
 
         inputMenu.setChatInputMenuListener(new ChatInputMenuListener() {
 
@@ -366,9 +382,9 @@ public class EaseChatFragment extends EaseBaseFragment implements EMMessageListe
      * register extend menu, item id need > 3 if you override this method and keep exist item
      */
     protected void registerExtendMenuItem() {
-        for (int i = 0; i < itemStrings.length; i++) {
-            inputMenu.registerExtendMenuItem(itemStrings[i], itemdrawables[i], itemIds[i], extendMenuItemClickListener);
-        }
+//        for (int i = 0; i < itemStrings.length; i++) {
+//            inputMenu.registerExtendMenuItem(itemStrings[i], itemdrawables[i], itemIds[i], extendMenuItemClickListener);
+//        }
     }
 
 

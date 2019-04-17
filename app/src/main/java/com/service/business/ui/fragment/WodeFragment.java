@@ -10,11 +10,8 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.CircleCrop;
 import com.bumptech.glide.request.RequestOptions;
-import com.netease.nim.uikit.SPUtils;
-import com.netease.nimlib.sdk.NIMClient;
-import com.netease.nimlib.sdk.RequestCallbackWrapper;
-import com.netease.nimlib.sdk.auth.AuthService;
-import com.netease.nimlib.sdk.uinfo.UserService;
+import com.service.business.hxim.ChatListActivity;
+import com.service.business.ui.utils.SPUtils;
 import com.netease.nimlib.sdk.uinfo.constant.UserInfoFieldEnum;
 import com.service.business.R;
 import com.service.business.model.UserInfoBean;
@@ -84,21 +81,9 @@ public class WodeFragment extends BaseFragment {
                     Glide.with(getActivity()).load(response.data.headUrl).apply(RequestOptions.bitmapTransform(new CircleCrop())).into(ivAvatar);
                     tv_login.setText(response.data.nickname);
                     SPUtils.save("username", response.data.nickname);
+                    SPUtils.save("nickname", response.data.nickname);
+                      SPUtils.save("logoUrl", response.data.headUrl);
 
-                    if (response.data.nickname != null) {
-
-                        Map<UserInfoFieldEnum, Object> fields = new HashMap<>(1);
-                        fields.put(UserInfoFieldEnum.Name, response.data.nickname);
-                        fields.put(UserInfoFieldEnum.AVATAR, response.data.headUrl);
-
-                        NIMClient.getService(UserService.class).updateUserInfo(fields)
-                                .setCallback(new RequestCallbackWrapper<Void>() {
-                                    @Override
-                                    public void onResult(int i, Void aVoid, Throwable throwable) {
-
-                                    }
-                                });
-                    }
                 }
             }
         });
@@ -142,7 +127,7 @@ public class WodeFragment extends BaseFragment {
                     showLoginDialog(getActivity());
                     return;
                 }
-                Intent intent_session = new Intent(getContext(), SessionListActivity.class);
+                Intent intent_session = new Intent(getContext(), ChatListActivity.class);
                 startActivity(intent_session);
                 break;
             case R.id.ll_login:
@@ -186,7 +171,7 @@ public class WodeFragment extends BaseFragment {
                     public void onClick(DialogInterface dialog,
                                         int which) {
 
-                        NIMClient.getService(AuthService.class).logout();
+//                        NIMClient.getService(AuthService.class).logout();
                         SPUtils.save("token", "");
                         SPUtils.save("userId", "");
                         SPUtils.save("type", 1);

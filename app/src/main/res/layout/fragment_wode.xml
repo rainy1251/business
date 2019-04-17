@@ -36,6 +36,7 @@
                     android:layout_alignParentRight="true"
                     android:layout_marginRight="16dp"
                     android:padding="@dimen/dp_5"
+                    android:visibility="gone"
                     android:layout_centerVertical="true"/>
                 <TextView
                     android:id="@+id/tv_edit"

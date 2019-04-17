@@ -4,7 +4,7 @@ import android.content.SharedPreferences;
 import android.view.View;
 import android.widget.TextView;
 
-import com.netease.nim.uikit.SPUtils;
+import com.service.business.ui.utils.SPUtils;
 import com.service.business.R;
 import com.service.business.model.StateBean;
 import com.service.business.model.UserInfoBean;

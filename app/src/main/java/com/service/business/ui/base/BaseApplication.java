@@ -13,7 +13,7 @@ import com.hyphenate.push.PushListener;
 import com.hyphenate.util.EMLog;
 import com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout;
 import com.lcodecore.tkrefreshlayout.header.progresslayout.ProgressLayout;
-import com.netease.nim.uikit.SPUtils;
+import com.service.business.ui.utils.SPUtils;
 import com.netease.nimlib.sdk.NIMClient;
 import com.service.business.avchat.DemoCache;
 import com.service.business.avchat.IMConfig;
@@ -41,7 +41,7 @@ public class BaseApplication extends Application {
         initRefreshLayout();
         SPUtils.instance(this);
         MultiDex.install(this);
-        getInitIM();
+      //getInitIM();
         getInitHXIM();
 
     }
@@ -51,7 +51,7 @@ public class BaseApplication extends Application {
 // 默认添加好友时，是不需要验证的，改成需要验证
         options.setAcceptInvitationAlways(false);
         EaseUI.getInstance().init(this, options);
-        EMClient.getInstance().setDebugMode(true);
+        //EMClient.getInstance().setDebugMode(true);
         IntentFilter callFilter = new IntentFilter(EMClient.getInstance().callManager().getIncomingCallBroadcastAction());
         registerReceiver(new CallReceiver(), callFilter);
 

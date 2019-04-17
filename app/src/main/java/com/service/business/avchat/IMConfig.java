@@ -13,7 +13,7 @@ import com.netease.nim.avchatkit.model.IUserInfoProvider;
 import com.netease.nim.rtskit.RTSKit;
 import com.netease.nim.rtskit.api.config.RTSOptions;
 import com.netease.nim.uikit.Contents;
-import com.netease.nim.uikit.SPUtils;
+import com.service.business.ui.utils.SPUtils;
 import com.netease.nim.uikit.api.NimUIKit;
 import com.netease.nim.uikit.api.UIKitOptions;
 import com.netease.nim.uikit.business.contact.core.query.PinYin;
@@ -34,7 +34,6 @@ import com.service.business.ui.activity.MainActivity;
 import com.service.business.avchat.rts.RTSHelper;
 import com.service.business.avchat.session.SessionHelper;
 import com.service.business.ui.activity.SessionListActivity;
-import com.service.business.ui.utils.MyLog;
 
 import java.io.IOException;
 

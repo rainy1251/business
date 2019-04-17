@@ -1,6 +1,13 @@
 package com.service.business.hxim;
 
+import android.app.Activity;
+import android.app.ActivityManager;
+import android.app.AlertDialog;
+import android.content.ComponentName;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.text.TextUtils;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.MenuItem;
@@ -8,6 +15,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -21,10 +29,14 @@ import com.hyphenate.easeui.ui.EaseConversationListFragment;
 import com.hyphenate.util.NetUtils;
 import com.service.business.R;
 import com.service.business.db.InviteMessgeDao;
+import com.service.business.ui.activity.MainActivity;
+
+import java.util.List;
 
 public class ConversationListFragment extends EaseConversationListFragment {
 
     private TextView errorText;
+    private ImageView left_image;
 
     @Override
     protected void initView() {
@@ -32,8 +44,42 @@ public class ConversationListFragment extends EaseConversationListFragment {
         View errorView = (LinearLayout) View.inflate(getActivity(),R.layout.em_chat_neterror_item, null);
         errorItemContainer.addView(errorView);
         errorText = (TextView) errorView.findViewById(R.id.tv_connect_errormsg);
+        left_image = (ImageView) getView().findViewById(com.hyphenate.easeui.R.id.left_image);
+        left_image.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+
+                    showEnterDialog();
+
+            }
+        });
     }
-    
+
+    public void showEnterDialog() {
+
+        // 创建构建器
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        // 设置参数
+        builder.setTitle("提示")
+                .setMessage("要确定退出程序吗？")
+                .setPositiveButton("确认", new DialogInterface.OnClickListener() {// 积极
+
+                    @Override
+                    public void onClick(DialogInterface dialog,
+                                        int which) {
+                        getActivity().finish();
+//
+                    }
+                }).setNegativeButton("取消", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int i) {
+                dialog.dismiss();
+            }
+        });
+
+        builder.create().show();
+    }
     @Override
     protected void setUpView() {
         super.setUpView();

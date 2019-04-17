@@ -1,9 +1,17 @@
 package com.hyphenate.easeui.ui;
 
+import android.app.Activity;
+import android.app.ActivityManager;
+import android.app.AlertDialog;
+import android.content.ComponentName;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v4.app.FragmentActivity;
 import android.text.Editable;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Pair;
 import android.view.LayoutInflater;
@@ -19,12 +27,15 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
 
 import com.hyphenate.EMConnectionListener;
 import com.hyphenate.EMConversationListener;
 import com.hyphenate.EMError;
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.chat.EMConversation;
+import com.hyphenate.chat.EMMessage;
 import com.hyphenate.easeui.R;
 import com.hyphenate.easeui.widget.EaseConversationList;
 
@@ -57,7 +68,8 @@ public class EaseConversationListFragment extends EaseBaseFragment{
 		}
     	
     };
-    
+    private RelativeLayout order_layout;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return inflater.inflate(R.layout.ease_fragment_conversation_list, container, false);
@@ -74,6 +86,9 @@ public class EaseConversationListFragment extends EaseBaseFragment{
     protected void initView() {
         inputMethodManager = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
         conversationListView = (EaseConversationList) getView().findViewById(R.id.list);
+
+        order_layout = (RelativeLayout) getView().findViewById(R.id.order_layout);
+        order_layout.setVisibility(View.GONE);
         query = (EditText) getView().findViewById(R.id.query);
         // button to clear content in search bar
         clearSearch = (ImageButton) getView().findViewById(R.id.search_clear);
@@ -130,8 +145,9 @@ public class EaseConversationListFragment extends EaseBaseFragment{
                 return false;
             }
         });
+
     }
-    
+
     
     protected EMConnectionListener connectionListener = new EMConnectionListener() {
         
@@ -308,5 +324,6 @@ public class EaseConversationListFragment extends EaseBaseFragment{
     public void setConversationListItemClickListener(EaseConversationListItemClickListener listItemClickListener){
         this.listItemClickListener = listItemClickListener;
     }
+
 
 }

@@ -1,6 +1,5 @@
 package com.service.business.ui.utils;
 
-import com.netease.nim.uikit.SPUtils;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.request.RequestCall;
 
