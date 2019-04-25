@@ -59,6 +59,12 @@ public class NetUtils {
         return build;
 
     }
+    public static RequestCall getBuildByGetNoToken(String api) {
 
+        RequestCall build = OkHttpUtils.get().url("http://47.95.206.250:8088"+api).build();
+
+        return build;
+
+    }
 
 }

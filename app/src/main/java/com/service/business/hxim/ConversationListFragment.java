@@ -1,13 +1,8 @@
 package com.service.business.hxim;
 
-import android.app.Activity;
-import android.app.ActivityManager;
 import android.app.AlertDialog;
-import android.content.ComponentName;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.text.TextUtils;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.MenuItem;
@@ -29,9 +24,6 @@ import com.hyphenate.easeui.ui.EaseConversationListFragment;
 import com.hyphenate.util.NetUtils;
 import com.service.business.R;
 import com.service.business.db.InviteMessgeDao;
-import com.service.business.ui.activity.MainActivity;
-
-import java.util.List;
 
 public class ConversationListFragment extends EaseConversationListFragment {
 
@@ -44,7 +36,7 @@ public class ConversationListFragment extends EaseConversationListFragment {
         View errorView = (LinearLayout) View.inflate(getActivity(),R.layout.em_chat_neterror_item, null);
         errorItemContainer.addView(errorView);
         errorText = (TextView) errorView.findViewById(R.id.tv_connect_errormsg);
-        left_image = (ImageView) getView().findViewById(com.hyphenate.easeui.R.id.left_image);
+        left_image = (ImageView) getView().findViewById(R.id.left_image);
         left_image.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

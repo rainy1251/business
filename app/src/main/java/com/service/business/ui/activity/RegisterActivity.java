@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import com.hyphenate.EMCallBack;
 import com.hyphenate.chat.EMClient;
+import com.service.business.hxim.DemoHelper;
 import com.service.business.ui.utils.SPUtils;
 import com.service.business.R;
 import com.service.business.model.StateBean;
@@ -105,16 +106,16 @@ public class RegisterActivity extends BaseActivity implements RadioGroup.OnCheck
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.tv_getCode:
-//                String username = etUsername.getText().toString().trim();
-//                if (UiUtils.isMobile(username)) {
-//                    Map<String, String> map = new HashMap();
-//                    map.put("mobile", username);
-//                    String postContent = getPostContent(map);
-//                    String api = "/app/auth/regCaptcha";
-//                    getCode(api, postContent);
-//                } else {
-//                    MyToast.show("请输入正确的手机号");
-//                }
+                String username = etUsername.getText().toString().trim();
+                if (UiUtils.isMobile(username)) {
+                    Map<String, String> map = new HashMap();
+                    map.put("mobile", username);
+                    String postContent = getPostContent(map);
+                    String api = "/app/auth/regCaptcha";
+                    getCode(api, postContent);
+                } else {
+                    MyToast.show("请输入正确的手机号");
+                }
                 break;
             case R.id.tv_register:
                 String mobile = etUsername.getText().toString().trim();
@@ -221,13 +222,13 @@ public class RegisterActivity extends BaseActivity implements RadioGroup.OnCheck
                             SPUtils.save("userId", userId);
                             SPUtils.save("type", type);
                             String password = etPassword.getText().toString().trim();
-                            loginIM(userId, password);
 //                            doLogin(userId, response.data.imToken);
 //                            SPUtils.save("IMToken", response.data.imToken);
                             if (!isLogin) {
                             } else {
                                 MyToast.show("登陆成功");
                             }
+                            loginIM(userId, password);
                             finish();
                             EventBus.getDefault().post(new MessageUpDataUIEvent("更新"));
                         } else if (response.errmsg.contains("审核")) {
@@ -321,7 +322,7 @@ public class RegisterActivity extends BaseActivity implements RadioGroup.OnCheck
                 EMClient.getInstance().chatManager().loadAllConversations();
                 Log.d("main", "登录聊天服务器成功！");
               //  DemoHelper.getInstance().getUserProfileManager().updateCurrentUserNickName("levi");
-                //DemoHelper.getInstance().getUserProfileManager().asyncGetCurrentUserInfo();
+               DemoHelper.getInstance().getUserProfileManager().asyncGetCurrentUserInfo();
 //                Intent intent = new Intent(RegisterActivity.this, ChatActivity.class);
 //                startActivity(intent);
 //                finish();

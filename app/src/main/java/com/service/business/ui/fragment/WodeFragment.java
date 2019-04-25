@@ -12,6 +12,7 @@ import com.bumptech.glide.load.resource.bitmap.CircleCrop;
 import com.bumptech.glide.request.RequestOptions;
 import com.service.business.R;
 import com.service.business.hxim.ChatListActivity;
+import com.service.business.hxim.DemoHelper;
 import com.service.business.model.UserInfoBean;
 import com.service.business.net.GenericsCallback;
 import com.service.business.net.JsonGenericsSerializator;
@@ -166,9 +167,13 @@ public class WodeFragment extends BaseFragment {
                                         int which) {
 
 //                        NIMClient.getService(AuthService.class).logout();
+                        DemoHelper.getInstance().logout(false, null);
                         SPUtils.save("token", "");
                         SPUtils.save("userId", "");
                         SPUtils.save("type", 1);
+                        SPUtils.save("username", "");
+                        SPUtils.save("nickname", "");
+                        SPUtils.save("logoUrl", "");
                         Intent intent_login = new Intent(getContext(), RegisterActivity.class);
                         intent_login.putExtra("isLogin", true);
                         startActivity(intent_login);

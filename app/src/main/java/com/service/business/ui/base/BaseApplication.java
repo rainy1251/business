@@ -43,13 +43,13 @@ public class BaseApplication extends Application {
     }
 
     private void getInitHXIM() {
-        EMOptions options = new EMOptions();
-// 默认添加好友时，是不需要验证的，改成需要验证
-        options.setAcceptInvitationAlways(false);
-        EaseUI.getInstance().init(this, options);
-        //EMClient.getInstance().setDebugMode(true);
-        IntentFilter callFilter = new IntentFilter(EMClient.getInstance().callManager().getIncomingCallBroadcastAction());
-        registerReceiver(new CallReceiver(), callFilter);
+//        EMOptions options = new EMOptions();
+//// 默认添加好友时，是不需要验证的，改成需要验证
+//        options.setAcceptInvitationAlways(false);
+//        EaseUI.getInstance().init(this, options);
+//        //EMClient.getInstance().setDebugMode(true);
+//        IntentFilter callFilter = new IntentFilter(EMClient.getInstance().callManager().getIncomingCallBroadcastAction());
+//        registerReceiver(new CallReceiver(), callFilter);
 
         DemoHelper.getInstance().init(this);
 

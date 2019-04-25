@@ -98,7 +98,14 @@ public class ChatFragment extends EaseChatFragment implements EaseChatFragment.E
             }
         }
         super.setUpView();
-        // set click listener
+        Bundle arguments = getArguments();
+        String nickname = arguments.getString(EaseConstant.EXTRA_USER_NICKNAME);
+        if (nickname!=null){
+
+            titleBar.setTitle(nickname);
+        }else{
+            titleBar.setTitle(toChatUsername);
+        }
         titleBar.setLeftLayoutClickListener(new OnClickListener() {
 
             @Override

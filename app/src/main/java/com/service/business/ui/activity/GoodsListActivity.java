@@ -53,11 +53,15 @@ public class GoodsListActivity extends BaseActivity {
     TextView tv_orderUserId;
     @BindView(R.id.ll_bottom)
     LinearLayout ll_bottom;
+    @BindView(R.id.rl_list)
+    RelativeLayout rl_list;
     private ArrayList<GoodsThreeBean.ItemBean.ListBean> selectGoodsList = new ArrayList<>();
     private ShopListAdapter allAdapter;
     private TextView tvallPrice;
     private PopupWindow mPopWindow;
     private String orderUserId;
+    private ListView lv_shop;
+    private TextView tv_close;
 
     @Override
     public int getLayoutId() {
@@ -69,7 +73,11 @@ public class GoodsListActivity extends BaseActivity {
 
         setToolbarNoEN(R.id.toolbar, "购物清单");
         EventBus.getDefault().register(this);
-
+        lv_shop = findViewById(R.id.lv_shop);
+        tv_close = findViewById(R.id.tv_close);
+        tvallPrice = findViewById(R.id.tv_allprice);
+        allAdapter = new ShopListAdapter(this);
+        lv_shop.setAdapter(allAdapter);
     }
 
 
@@ -93,6 +101,11 @@ public class GoodsListActivity extends BaseActivity {
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.tv_goods:
+//                if (mPopWindow != null&&mPopWindow.isShowing()) {
+//                    return;
+//                }
+//                showPop(selectGoodsList);
+
                 showPop(selectGoodsList);
                 break;
             case R.id.tv_select:
@@ -129,17 +142,17 @@ public class GoodsListActivity extends BaseActivity {
         if (orderUserId != null) {
             detailBean.userId = orderUserId;
         }
-        detailBean.shipChannel=distributorId;
+        detailBean.shipChannel = distributorId;
         String userId = SPUtils.getString("userId");
-        if (userId!=null){
+        if (userId != null) {
 
-            detailBean.shipSn=userId;
+            detailBean.shipSn = userId;
         }
         ArrayList<OrderDetailBean.GoodsBean> orderGoods = new ArrayList<>();
         detailBean.orderGoods = orderGoods;
         for (int i = 0; i < datas.size(); i++) {
             OrderDetailBean.GoodsBean goodsBean = new OrderDetailBean.GoodsBean(datas.get(i).name,
-                    datas.get(i).num, datas.get(i).retailPrice,datas.get(i).id,datas.get(i).picUrl);
+                    datas.get(i).num, datas.get(i).retailPrice, datas.get(i).id, datas.get(i).picUrl);
             detailBean.orderGoods.add(goodsBean);
         }
         String s = new Gson().toJson(detailBean);
@@ -153,26 +166,33 @@ public class GoodsListActivity extends BaseActivity {
      * @param titleList
      */
     private void showPop(final ArrayList<GoodsThreeBean.ItemBean.ListBean> titleList) {
-        LayoutInflater layoutInflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View contentView = layoutInflater.inflate(R.layout.layout_pop, null);
-        int screenHeight = UiUtils.getScreenHeight();
-        mPopWindow = new PopupWindow(contentView,
-                RelativeLayout.LayoutParams.MATCH_PARENT, screenHeight);
-        ListView lv_shop = (ListView) contentView.findViewById(R.id.lv_shop);
-        TextView tv_close = (TextView) contentView.findViewById(R.id.tv_close);
-        tvallPrice = contentView.findViewById(R.id.tv_allprice);
-        allAdapter = new ShopListAdapter(this);
-        lv_shop.setAdapter(allAdapter);
+//        LayoutInflater layoutInflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+//        View contentView = layoutInflater.inflate(R.layout.layout_pop, null);
+//        int screenHeight = UiUtils.getScreenHeight();
+//        mPopWindow = new PopupWindow(contentView,
+//                RelativeLayout.LayoutParams.MATCH_PARENT, screenHeight);
+//        ListView lv_shop = (ListView) contentView.findViewById(R.id.lv_shop);
+//        TextView tv_close = (TextView) contentView.findViewById(R.id.tv_close);
+//        tvallPrice = contentView.findViewById(R.id.tv_allprice);
+//        allAdapter = new ShopListAdapter(this);
+//        lv_shop.setAdapter(allAdapter);
+        if (rl_list!=null&&rl_list.getVisibility()==View.VISIBLE) {
+            rl_list.setVisibility(View.GONE);
+            return;
+        }
+
+        rl_list.setVisibility(View.VISIBLE);
         allAdapter.addData(titleList, true);
-        mPopWindow.showAtLocation(ll_bottom, Gravity.NO_GRAVITY, 0, -UIUtil.dip2px(GoodsListActivity.this, 80));
+//        mPopWindow.showAtLocation(ll_bottom, Gravity.NO_GRAVITY, 0, -UIUtil.dip2px(GoodsListActivity.this, 80));
 
         tv_close.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                if (mPopWindow != null) {
-                    mPopWindow.dismiss();
-                }
+//                if (mPopWindow != null) {
+//                    mPopWindow.dismiss();
+//                }
+                rl_list.setVisibility(View.GONE);
             }
         });
         int allPrice = 0;
@@ -187,7 +207,7 @@ public class GoodsListActivity extends BaseActivity {
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void Event(MessageEvent messageEvent) {
         selectGoodsList = messageEvent.getMessage();
-        showPop(selectGoodsList);
+       showPop(selectGoodsList);
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
@@ -202,9 +222,10 @@ public class GoodsListActivity extends BaseActivity {
             tvallPrice.setText(allPrice + "元");
         }
     }
+
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void Event(MessageDistributorEvent messageEvent) {
-        if (messageEvent.getMessage()!=null) {
+        if (messageEvent.getMessage() != null) {
             String distributorId = messageEvent.getMessage();
             getOrderContent(distributorId);
         }
@@ -220,10 +241,11 @@ public class GoodsListActivity extends BaseActivity {
 
     /**
      * 创建订单
+     *
      * @param content
      */
     public void createOrder(String content) {
-       // MyLog.show(content);
+        // MyLog.show(content);
         NetUtils.getBuildByPostToken("/app/order/createOrder", content).execute(new GenericsCallback<StateBean>(new JsonGenericsSerializator()) {
             @Override
             public void onResponse(StateBean response, int id) {
@@ -232,14 +254,14 @@ public class GoodsListActivity extends BaseActivity {
                     if (mPopWindow != null) {
                         mPopWindow.dismiss();
                     }
-                }else if (response.errno==403){
+                } else if (response.errno == 403) {
                     MyToast.show(response.errmsg);
                 }
             }
         });
     }
 
-    public  void showChooseDialog() {
+    public void showChooseDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         // 设置参数
         builder.setTitle("提示")
@@ -261,7 +283,6 @@ public class GoodsListActivity extends BaseActivity {
 
         builder.create().show();
     }
-
 
 
 }
