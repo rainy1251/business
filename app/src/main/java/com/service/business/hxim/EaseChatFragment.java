@@ -213,6 +213,7 @@ public class EaseChatFragment extends EaseBaseFragment implements EMMessageListe
             public void onClick(View v) {
                 Intent intent = new Intent(UiUtils.getContext(),GoodsListActivity.class );
                 intent.putExtra("orderUserId", toChatUsername);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 UiUtils.getContext().startActivity(intent);
             }
         });

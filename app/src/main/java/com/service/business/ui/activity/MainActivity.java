@@ -215,7 +215,7 @@ public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedCh
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void Event(MessageUpDataUIEvent messageEvent) {
         if (messageEvent.getMessage().equals("更新")) {
-
+            rbMenuHome.setChecked(true);
             changeFragment(0);
         }
     }
