@@ -151,9 +151,9 @@ public class GoodsListActivity extends BaseActivity {
         ArrayList<OrderDetailBean.GoodsBean> orderGoods = new ArrayList<>();
         detailBean.orderGoods = orderGoods;
         for (int i = 0; i < datas.size(); i++) {
-            OrderDetailBean.GoodsBean goodsBean = new OrderDetailBean.GoodsBean(datas.get(i).name,
-                    datas.get(i).num, datas.get(i).retailPrice, datas.get(i).id, datas.get(i).picUrl);
-            detailBean.orderGoods.add(goodsBean);
+//            OrderDetailBean.GoodsBean goodsBean = new OrderDetailBean.GoodsBean(datas.get(i).name,
+//                    datas.get(i).num, datas.get(i).retailPrice, datas.get(i).id, datas.get(i).picUrl);
+//            detailBean.orderGoods.add(goodsBean);
         }
         String s = new Gson().toJson(detailBean);
 
@@ -197,8 +197,8 @@ public class GoodsListActivity extends BaseActivity {
         });
         int allPrice = 0;
         for (int i = 0; i < titleList.size(); i++) {
-            titleList.get(i).num = 1;
-            allPrice = (int) (allPrice + Float.valueOf(titleList.get(i).retailPrice) * 1);
+//            titleList.get(i).num = 1;
+//            allPrice = (int) (allPrice + Float.valueOf(titleList.get(i).retailPrice) * 1);
         }
         tvallPrice.setText(allPrice + "元");
 
@@ -217,19 +217,19 @@ public class GoodsListActivity extends BaseActivity {
             int allPrice = 0;
             ArrayList<GoodsThreeBean.ItemBean.ListBean> datas = (ArrayList<GoodsThreeBean.ItemBean.ListBean>) allAdapter.getDatas();
             for (int i = 0; i < datas.size(); i++) {
-                allPrice = (int) (allPrice + Float.valueOf(datas.get(i).retailPrice) * datas.get(i).num);
+              //  allPrice = (int) (allPrice + Float.valueOf(datas.get(i).retailPrice) * datas.get(i).num);
             }
             tvallPrice.setText(allPrice + "元");
         }
     }
 
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void Event(MessageDistributorEvent messageEvent) {
-        if (messageEvent.getMessage() != null) {
-            String distributorId = messageEvent.getMessage();
-            getOrderContent(distributorId);
-        }
-    }
+//    @Subscribe(threadMode = ThreadMode.MAIN)
+//    public void Event(MessageDistributorEvent messageEvent) {
+//        if (messageEvent.getMessage() != null) {
+//            String distributorId = messageEvent.getMessage();
+//            getOrderContent(distributorId);
+//        }
+//    }
 
     @Override
     public void onDestroy() {

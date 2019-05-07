@@ -27,7 +27,15 @@ public class GoodsThreeBean implements Serializable {
             public String picUrl;
             public String retailPrice;
             public boolean isCheck;
-            public int  num=1;
+            public String  num;
+
+            public String getNum() {
+                return num;
+            }
+
+            public void setNum(String num) {
+                this.num = num;
+            }
         }
     }
 

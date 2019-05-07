@@ -38,9 +38,9 @@ public class SelectGoodsActivity extends BaseActivity {
 
     private OneAdapter oneAdapter;
     private TwoAdapter twoAdapter;
+    private ThreeAdapter threeAdapter;
     private ArrayList<GoodsThreeBean.ItemBean.ListBean> dataThree;
     private ArrayList<GoodsThreeBean.ItemBean.ListBean> goodsList=new ArrayList<>();
-    private ThreeAdapter threeAdapter;
     private ArrayList<AllCategoryBean.DatasBean.TreeBean> treeList;
     private ArrayList<AllCategoryBean.DatasBean.TreeBean.ChildrenBean> children;
 

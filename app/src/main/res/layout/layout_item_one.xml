@@ -7,7 +7,7 @@
 
         <TextView
             android:layout_width="match_parent"
-            android:layout_height="@dimen/dp_60"
+            android:layout_height="@dimen/dp_40"
             android:textColor="@color/dark"
             android:paddingLeft="@dimen/dp_5"
             android:paddingRight="@dimen/dp_5"

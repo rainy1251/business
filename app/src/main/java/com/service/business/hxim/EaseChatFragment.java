@@ -1,9 +1,11 @@
 package com.service.business.hxim;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.ClipboardManager;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
@@ -24,10 +26,14 @@ import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.AdapterView;
+import android.widget.GridView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
 import com.hyphenate.EMCallBack;
 import com.hyphenate.EMMessageListener;
 import com.hyphenate.EMValueCallBack;
@@ -43,6 +49,7 @@ import com.hyphenate.chat.EMTextMessageBody;
 import com.hyphenate.chat.adapter.EMAChatRoomManagerListener;
 import com.hyphenate.easeui.EaseConstant;
 import com.hyphenate.easeui.EaseUI;
+import com.hyphenate.easeui.R;
 import com.hyphenate.easeui.domain.EaseEmojicon;
 import com.hyphenate.easeui.domain.EaseUser;
 import com.hyphenate.easeui.model.EaseAtMessageHelper;
@@ -65,13 +72,35 @@ import com.hyphenate.easeui.widget.chatrow.EaseCustomChatRowProvider;
 import com.hyphenate.exceptions.HyphenateException;
 import com.hyphenate.util.EMLog;
 import com.hyphenate.util.PathUtil;
-import com.service.business.ui.activity.GoodsListActivity;
+import com.service.business.model.AllCategoryBean;
+import com.service.business.model.GoodsThreeBean;
+import com.service.business.model.OrderDetailBean;
+import com.service.business.model.StateBean;
+import com.service.business.net.GenericsCallback;
+import com.service.business.net.JsonGenericsSerializator;
+import com.service.business.ui.activity.DistributorActivity;
+import com.service.business.ui.adapter.OneAdapter;
+import com.service.business.ui.adapter.ShopListAdapter;
+import com.service.business.ui.adapter.ThreeAdapter;
+import com.service.business.ui.adapter.TwoAdapter;
+import com.service.business.ui.event.MessageDistributorEvent;
+import com.service.business.ui.event.MessagePositionEvent;
+import com.service.business.ui.event.MessageUpDataPriceEvent;
+import com.service.business.ui.utils.MyToast;
+import com.service.business.ui.utils.NetUtils;
+import com.service.business.ui.utils.SPUtils;
 import com.service.business.ui.utils.UiUtils;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+
 
 /**
  * you can new an EaseChatFragment to use or you can inherit it to expand.
@@ -131,14 +160,14 @@ public class EaseChatFragment extends EaseBaseFragment implements EMMessageListe
     static final int ITEM_VOICE_CALL = 4;
     static final int ITEM_VIDEO_CALL = 5;
 
-  //  protected int[] itemStrings = {R.string.attach_take_pic, R.string.attach_picture, R.string.attach_location, R.string.attach_voice_call, R.string.attach_video_call};
-    protected int[] itemStrings = { com.hyphenate.easeui.R.string.attach_voice_call, com.hyphenate.easeui.R.string.attach_video_call};
+    //  protected int[] itemStrings = {R.string.attach_take_pic, R.string.attach_picture, R.string.attach_location, R.string.attach_voice_call, R.string.attach_video_call};
+    protected int[] itemStrings = {com.hyphenate.easeui.R.string.attach_voice_call, com.hyphenate.easeui.R.string.attach_video_call};
 //    protected int[] itemdrawables = {R.drawable.ease_chat_takepic_selector, R.drawable.ease_chat_image_selector,
 //            R.drawable.ease_chat_location_selector, R.drawable.ease_chat_voice_call_receive, R.drawable.ease_chat_video_call_receive};
 
     protected int[] itemdrawables = {com.hyphenate.easeui.R.drawable.ease_chat_voice_call_selector, com.hyphenate.easeui.R.drawable.ease_chat_video_call_selector};
-//    protected int[] itemIds = {ITEM_TAKE_PICTURE, ITEM_PICTURE, ITEM_LOCATION, ITEM_VOICE_CALL, ITEM_VIDEO_CALL};
-    protected int[] itemIds = { ITEM_VOICE_CALL, ITEM_VIDEO_CALL};
+    //    protected int[] itemIds = {ITEM_TAKE_PICTURE, ITEM_PICTURE, ITEM_LOCATION, ITEM_VOICE_CALL, ITEM_VIDEO_CALL};
+    protected int[] itemIds = {ITEM_VOICE_CALL, ITEM_VIDEO_CALL};
     private boolean isMessageListInited;
     protected MyItemClickListener extendMenuItemClickListener;
     protected boolean isRoaming = false;
@@ -148,6 +177,9 @@ public class EaseChatFragment extends EaseBaseFragment implements EMMessageListe
     // "正在输入"功能的开关，打开后本设备发送消息将持续发送cmd类型消息通知对方"正在输入"
     private boolean turnOnTyping;
     private RelativeLayout order_layout;
+    private ArrayList<GoodsThreeBean.ItemBean.ListBean> datas;
+    private String distributorId;
+    private String distributorName;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -181,6 +213,7 @@ public class EaseChatFragment extends EaseBaseFragment implements EMMessageListe
      * init view
      */
     protected void initView() {
+        EventBus.getDefault().register(this);
         // hold to record voice
         //noinspection ConstantConditions
         voiceRecorderView = (EaseVoiceRecorderView) getView().findViewById(com.hyphenate.easeui.R.id.voice_recorder);
@@ -202,21 +235,24 @@ public class EaseChatFragment extends EaseBaseFragment implements EMMessageListe
         });
 
         extendMenuItemClickListener = new MyItemClickListener();
-        inputMenu = (EaseChatInputMenu) getView().findViewById(com.hyphenate.easeui.R.id.input_menu);
+        inputMenu = (EaseChatInputMenu) getView().findViewById(R.id.input_menu);
         registerExtendMenuItem();
         // init input menu
         inputMenu.init(null);
+
+        initOrderView();
+
         //TODO  跳转
-        order_layout.setVisibility(View.VISIBLE);
-        order_layout.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(UiUtils.getContext(),GoodsListActivity.class );
-                intent.putExtra("orderUserId", toChatUsername);
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                UiUtils.getContext().startActivity(intent);
-            }
-        });
+        //       order_layout.setVisibility(View.VISIBLE);
+//        order_layout.setOnClickListener(new OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent intent = new Intent(UiUtils.getContext(), GoodsListActivity.class);
+//                intent.putExtra("orderUserId", toChatUsername);
+//                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//                UiUtils.getContext().startActivity(intent);
+//            }
+//        });
 
 
         inputMenu.setChatInputMenuListener(new ChatInputMenuListener() {
@@ -317,6 +353,7 @@ public class EaseChatFragment extends EaseBaseFragment implements EMMessageListe
         };
 
     }
+
 
     protected void setUpView() {
         titleBar.setTitle(toChatUsername);
@@ -664,6 +701,9 @@ public class EaseChatFragment extends EaseBaseFragment implements EMMessageListe
 
         if (chatType == EaseConstant.CHATTYPE_CHATROOM) {
             EMClient.getInstance().chatroomManager().leaveChatRoom(toChatUsername);
+        }
+        if (EventBus.getDefault().isRegistered(this)) {
+            EventBus.getDefault().unregister(this);
         }
     }
 
@@ -1319,6 +1359,7 @@ public class EaseChatFragment extends EaseBaseFragment implements EMMessageListe
          */
         EaseCustomChatRowProvider onSetCustomChatRowProvider();
     }
+
     /**
      * make a voice call
      */
@@ -1345,6 +1386,255 @@ public class EaseChatFragment extends EaseBaseFragment implements EMMessageListe
             // videoCallBtn.setEnabled(false);
             inputMenu.hideExtendMenuContainer();
         }
+    }
+
+    private OneAdapter oneAdapter;
+    private TwoAdapter twoAdapter;
+    private ThreeAdapter threeAdapter;
+    private ShopListAdapter allAdapter;
+    private ArrayList<GoodsThreeBean.ItemBean.ListBean> dataThree;
+    private ArrayList<GoodsThreeBean.ItemBean.ListBean> goodsList = new ArrayList<>();
+    private ArrayList<AllCategoryBean.DatasBean.TreeBean> treeList;
+    private ArrayList<AllCategoryBean.DatasBean.TreeBean.ChildrenBean> children;
+    private ArrayList<GoodsThreeBean.ItemBean.ListBean> goodsDatas = new ArrayList<>();
+    ListView lvOne;
+    ListView lvTwo;
+    ListView lvShop;
+    GridView lvDetail;
+    TextView tvPeisong;
+    TextView tvOrder;
+    TextView tvEmpty;
+
+    private void initOrderView() {
+
+        TextView tv_ch = getView().findViewById(R.id.tv_ch);
+        lvOne = getView().findViewById(R.id.lv_one);
+        lvTwo = getView().findViewById(R.id.lv_two);
+        lvDetail = getView().findViewById(R.id.lv_detail);
+        tvPeisong = getView().findViewById(R.id.tv_peisong);
+        lvShop = getView().findViewById(R.id.lv_shop);
+        tvOrder = getView().findViewById(R.id.tv_order);
+        tvEmpty = getView().findViewById(R.id.tv_empty);
+
+        allAdapter = new ShopListAdapter(getActivity());
+        lvShop.setAdapter(allAdapter);
+        lvShop.setEmptyView(tvEmpty);
+        oneAdapter = new OneAdapter(getActivity());
+        lvOne.setAdapter(oneAdapter);
+        twoAdapter = new TwoAdapter(getActivity());
+        lvTwo.setAdapter(twoAdapter);
+        threeAdapter = new ThreeAdapter(getActivity());
+        lvDetail.setAdapter(threeAdapter);
+        if (distributorName==null){
+            tvPeisong.setText("请选择配送商");
+        }
+        requeastAllCategory();
+
+        initOrderListener();
+    }
+
+    private void initOrderListener() {
+        lvOne.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                children = treeList.get(position).children;
+                twoAdapter.addData(children, true);
+                threeAdapter.clearData();
+            }
+        });
+        lvTwo.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                String two_value = children.get(position).id;
+                requeastGoodsDetail(two_value);
+            }
+        });
+        lvDetail.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                GoodsThreeBean.ItemBean.ListBean item = (GoodsThreeBean.ItemBean.ListBean) parent.getAdapter().getItem(position);
+                if (!item.isCheck) {
+                    item.isCheck = true;
+                  // item.setNum("1.0");
+                    goodsList.add(item);
+                    allAdapter.addData(goodsList, true);
+                    double allPrice = 0;
+                    for (int i = 0; i < goodsList.size(); i++) {
+                        goodsList.get(i).num = "1";
+                        double mul = UiUtils.mul(goodsList.get(i).retailPrice, goodsList.get(i).num);
+                        allPrice= UiUtils.add(allPrice,mul);
+                    }
+                    tvOrder.setText("确认并生成订单(小计：" + allPrice + "元)");
+                } else {
+                    MyToast.show("已添加过该商品");
+                }
+
+            }
+        });
+        tvPeisong.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), DistributorActivity.class);
+                startActivity(intent);
+            }
+        });
+        tvOrder.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (allAdapter == null) {
+                    MyToast.show("请先选择商品");
+                    return;
+                }
+                ArrayList<GoodsThreeBean.ItemBean.ListBean> datas = (ArrayList<GoodsThreeBean.ItemBean.ListBean>) allAdapter.getDatas();
+                if (datas.size() == 0) {
+                    MyToast.show("请先选择商品");
+                    return;
+                }
+                if (distributorId == null) {
+                    showChooseDialog();
+
+                    return;
+                }
+
+                getOrderContent(distributorId);
+            }
+        });
+    }
+
+    private void requeastAllCategory() {
+        NetUtils.getBuildByGet("/app/category/queryAllCategory").execute(new GenericsCallback<AllCategoryBean>(new JsonGenericsSerializator()) {
+            @Override
+            public void onResponse(AllCategoryBean response, int id) {
+                treeList = response.data.tree;
+                if (treeList.size() > 0) {
+                    oneAdapter.addData(treeList, true);
+                }
+            }
+        });
+    }
+
+
+    private void requeastGoodsDetail(String value) {
+        NetUtils.getBuildByGet("/app/goods/list?catId=" + value + "&page=1&limit=20&sort=add_time&order=desc").execute(new GenericsCallback<GoodsThreeBean>(new JsonGenericsSerializator()) {
+            @Override
+            public void onResponse(GoodsThreeBean response, int id) {
+                dataThree = response.data.items.list;
+
+                threeAdapter.addData(dataThree, true);
+
+            }
+        });
+    }
+
+    public void showChooseDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        // 设置参数
+        builder.setTitle("提示")
+                .setMessage("请先选择配送商")
+                .setPositiveButton("确认", new DialogInterface.OnClickListener() {// 积极
+
+                    @Override
+                    public void onClick(DialogInterface dialog,
+                                        int which) {
+                        Intent intent = new Intent(getActivity(), DistributorActivity.class);
+                        startActivity(intent);
+                    }
+                }).setNegativeButton("取消", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int i) {
+                dialog.dismiss();
+            }
+        });
+
+        builder.create().show();
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void Event(MessageDistributorEvent messageEvent) {
+        if (messageEvent.getMessage() != null) {
+            distributorId = messageEvent.getMessage();
+            distributorName = messageEvent.getName();
+            tvPeisong.setText("已选择配送商：" + distributorName);
+
+        }
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void Event(MessagePositionEvent messageEvent) {
+        int position = messageEvent.getPosition();
+        goodsList.remove(position);
+    }
+
+    double orderPrice;
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void Event(MessageUpDataPriceEvent messageEvent) {
+        String message = messageEvent.getMessage();
+        if (message.equals("price")) {
+            double allPrice=0 ;
+            goodsDatas = (ArrayList<GoodsThreeBean.ItemBean.ListBean>) allAdapter.getDatas();
+            for (int i = 0; i < goodsDatas.size(); i++) {
+                double mul = UiUtils.mul(goodsDatas.get(i).retailPrice, goodsDatas.get(i).num);
+                allPrice = UiUtils.add(allPrice,mul);
+            }
+            orderPrice = allPrice;
+            tvOrder.setText("确认并生成订单(小计：" + allPrice + "元)");
+        }
+    }
+
+    /**
+     * 获取订单json
+     */
+    private void getOrderContent(String distributorId) {
+        ArrayList<GoodsThreeBean.ItemBean.ListBean> datas = (ArrayList<GoodsThreeBean.ItemBean.ListBean>) allAdapter.getDatas();
+        OrderDetailBean detailBean = new OrderDetailBean();
+//        String price = tvOrder.getText().toString();
+//        if (price.contains("元")) {
+//            String[] prices = price.split("元");
+//            detailBean.actualPrice = prices[0];
+//        }
+        detailBean.actualPrice = orderPrice + "";
+        if (toChatUsername != null) {
+            detailBean.userId = toChatUsername;
+        }
+        detailBean.shipChannel = distributorId;
+        String userId = SPUtils.getString("userId");
+        if (userId != null) {
+
+            detailBean.shipSn = userId;
+        }
+        ArrayList<OrderDetailBean.GoodsBean> orderGoods = new ArrayList<>();
+        detailBean.orderGoods = orderGoods;
+        for (int i = 0; i < datas.size(); i++) {
+            OrderDetailBean.GoodsBean goodsBean = new OrderDetailBean.GoodsBean(datas.get(i).name,
+                    datas.get(i).num, datas.get(i).retailPrice, datas.get(i).id, datas.get(i).picUrl);
+            detailBean.orderGoods.add(goodsBean);
+        }
+        String s = new Gson().toJson(detailBean);
+
+        createOrder(s);
+    }
+
+    /**
+     * 创建订单
+     *
+     * @param content
+     */
+    public void createOrder(String content) {
+
+        NetUtils.getBuildByPostToken("/app/order/createOrder", content).execute(new GenericsCallback<StateBean>(new JsonGenericsSerializator()) {
+            @Override
+            public void onResponse(StateBean response, int id) {
+                if (response.errno == 0) {
+                    MyToast.show("下单成功");
+
+                } else if (response.errno == 403) {
+                    MyToast.show(response.errmsg);
+                }
+            }
+        });
     }
 
 }

@@ -27,7 +27,6 @@
                 android:layout_weight="1"
                 android:layout_height="match_parent">
             </ListView>
-
             <GridView
                 android:layout_width="@dimen/dp_0"
                 android:id="@+id/lv_detail"
@@ -38,8 +37,6 @@
                 android:verticalSpacing="10dp"
                 android:layout_height="match_parent">
             </GridView>
-
-
         </LinearLayout>
     </LinearLayout>
 

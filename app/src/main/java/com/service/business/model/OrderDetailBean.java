@@ -35,13 +35,13 @@ public class OrderDetailBean {
         public String  goodsSn;
         public String  picUrl;
         public int  id;
-        public int  number;
+        public String  number;
         public int  orderId;
         public String  price;
         public int  productId;
         public int  version;
 
-        public GoodsBean(String goodsName, int number, String price,String goodsId,String picUrl) {
+        public GoodsBean(String goodsName, String number, String price,String goodsId,String picUrl) {
             this.goodsName = goodsName;
             this.number = number;
             this.price = price;

@@ -106,6 +106,7 @@ public class ChatFragment extends EaseChatFragment implements EaseChatFragment.E
         }else{
             titleBar.setTitle(toChatUsername);
         }
+
         titleBar.setLeftLayoutClickListener(new OnClickListener() {
 
             @Override
@@ -117,27 +118,7 @@ public class ChatFragment extends EaseChatFragment implements EaseChatFragment.E
                 onBackPressed();
             }
         });
-//        ((EaseEmojiconMenu)inputMenu.getEmojiconMenu()).addEmojiconGroup(EmojiconExampleGroupData.getData());
-//        if(chatType == EaseConstant.CHATTYPE_GROUP){
-//            inputMenu.getPrimaryMenu().getEditText().addTextChangedListener(new TextWatcher() {
-//
-//                @Override
-//                public void onTextChanged(CharSequence s, int start, int before, int count) {
-//                    if(count == 1 && "@".equals(String.valueOf(s.charAt(start)))){
-//                        startActivityForResult(new Intent(getActivity(), PickAtUserActivity.class).
-//                                putExtra("groupId", toChatUsername), REQUEST_CODE_SELECT_AT_USER);
-//                    }
-//                }
-//                @Override
-//                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-//
-//                }
-//                @Override
-//                public void afterTextChanged(Editable s) {
-//
-//                }
-//            });
-//        }
+
     }
     
     @Override

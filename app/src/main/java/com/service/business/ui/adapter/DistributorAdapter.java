@@ -61,7 +61,7 @@ public class DistributorAdapter extends DefaultAdapter {
             tvChoose.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    EventBus.getDefault().post(new MessageDistributorEvent(resultBean.id));
+                    EventBus.getDefault().post(new MessageDistributorEvent(resultBean.id,resultBean.nickname));
                 }
             });
         }
