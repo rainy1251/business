@@ -75,36 +75,39 @@ public abstract class GenericsCallback<T> extends Callback<T> {
     public void onError(Call call, Exception e, int id) {
 
 
-        if (e.toString().contains("400")) {
-            if (mview != null) {
+//        if (e.toString().contains("400")) {
+//            if (mview != null) {
+//
+//                MySnackbar.show(message.trim(), mview);
+//            }
+//            return;
+//        }
+//        if (e.toString().contains("401")) {
+//
+////            Intent intent = new Intent(UiUtils.getContext(), LoginActivity.class);
+////            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+////            UiUtils.getContext().startActivity(intent);
+//            MyToast.show("登录过期，请重新登录！");
+//            return;
+//        }
+//        if (e.toString().contains("UnknownHostException")) {
+//            if (mview != null) {
+//                MySnackbar.show("网络异常,请检查网络", mview);
+//            }
+//            return;
+//        }
+//        if (e.toString().contains("404")) {
+//            if (mview != null) {
+//                MySnackbar.show("资源未找到", mview);
+//            }
+//            return;
+//        }
+        if (e.toString().contains("Failed to connect")) {
+            MyToast.show("网络异常,请检查网络");
+            return;
+        }
 
-                MySnackbar.show(message.trim(), mview);
-            }
-            return;
-        }
-        if (e.toString().contains("401")) {
-
-//            Intent intent = new Intent(UiUtils.getContext(), LoginActivity.class);
-//            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//            UiUtils.getContext().startActivity(intent);
-            MyToast.show("登录过期，请重新登录！");
-            return;
-        }
-        if (e.toString().contains("UnknownHostException")) {
-            if (mview != null) {
-                MySnackbar.show("网络异常,请检查网络", mview);
-            }
-            return;
-        }
-        if (e.toString().contains("404")) {
-            if (mview != null) {
-                MySnackbar.show("资源未找到", mview);
-            }
-            return;
-        }
-
-        // MySnackbar.show(e.toString(), mview);
-        MyLog.show(e.toString());
+        MyToast.show(e.toString());
     }
 
 

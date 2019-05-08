@@ -79,6 +79,7 @@ import com.service.business.model.StateBean;
 import com.service.business.net.GenericsCallback;
 import com.service.business.net.JsonGenericsSerializator;
 import com.service.business.ui.activity.DistributorActivity;
+import com.service.business.ui.activity.RegisterActivity;
 import com.service.business.ui.adapter.OneAdapter;
 import com.service.business.ui.adapter.ShopListAdapter;
 import com.service.business.ui.adapter.ThreeAdapter;
@@ -1425,7 +1426,7 @@ public class EaseChatFragment extends EaseBaseFragment implements EMMessageListe
         lvTwo.setAdapter(twoAdapter);
         threeAdapter = new ThreeAdapter(getActivity());
         lvDetail.setAdapter(threeAdapter);
-        if (distributorName==null){
+        if (distributorName == null) {
             tvPeisong.setText("请选择配送商");
         }
         requeastAllCategory();
@@ -1457,14 +1458,14 @@ public class EaseChatFragment extends EaseBaseFragment implements EMMessageListe
                 GoodsThreeBean.ItemBean.ListBean item = (GoodsThreeBean.ItemBean.ListBean) parent.getAdapter().getItem(position);
                 if (!item.isCheck) {
                     item.isCheck = true;
-                  // item.setNum("1.0");
+                    // item.setNum("1.0");
                     goodsList.add(item);
                     allAdapter.addData(goodsList, true);
                     double allPrice = 0;
                     for (int i = 0; i < goodsList.size(); i++) {
                         goodsList.get(i).num = "1";
                         double mul = UiUtils.mul(goodsList.get(i).retailPrice, goodsList.get(i).num);
-                        allPrice= UiUtils.add(allPrice,mul);
+                        allPrice = UiUtils.add(allPrice, mul);
                     }
                     tvOrder.setText("确认并生成订单(小计：" + allPrice + "元)");
                 } else {
@@ -1573,11 +1574,11 @@ public class EaseChatFragment extends EaseBaseFragment implements EMMessageListe
     public void Event(MessageUpDataPriceEvent messageEvent) {
         String message = messageEvent.getMessage();
         if (message.equals("price")) {
-            double allPrice=0 ;
+            double allPrice = 0;
             goodsDatas = (ArrayList<GoodsThreeBean.ItemBean.ListBean>) allAdapter.getDatas();
             for (int i = 0; i < goodsDatas.size(); i++) {
                 double mul = UiUtils.mul(goodsDatas.get(i).retailPrice, goodsDatas.get(i).num);
-                allPrice = UiUtils.add(allPrice,mul);
+                allPrice = UiUtils.add(allPrice, mul);
             }
             orderPrice = allPrice;
             tvOrder.setText("确认并生成订单(小计：" + allPrice + "元)");
@@ -1628,13 +1629,37 @@ public class EaseChatFragment extends EaseBaseFragment implements EMMessageListe
             @Override
             public void onResponse(StateBean response, int id) {
                 if (response.errno == 0) {
-                    MyToast.show("下单成功");
-
+                    showOrderDialog("下单成功", "继续下单");
                 } else if (response.errno == 403) {
                     MyToast.show(response.errmsg);
+                } else {
+                    if (response.errmsg!=null){
+
+                        showOrderDialog("下单失败"+response.errmsg, "确认");
+                    }else{
+                        showOrderDialog("下单失败", "确认");
+                    }
                 }
             }
         });
     }
 
+    public void showOrderDialog(String isSuccess, String confirm) {
+
+        // 创建构建器
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        // 设置参数
+        builder.setTitle("提示")
+                .setMessage(isSuccess)
+                .setPositiveButton(confirm, new DialogInterface.OnClickListener() {// 积极
+
+                    @Override
+                    public void onClick(DialogInterface dialog,
+                                        int which) {
+                        dialog.dismiss();
+                    }
+                });
+
+        builder.create().show();
+    }
 }
