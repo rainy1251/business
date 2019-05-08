@@ -1599,7 +1599,7 @@ public class EaseChatFragment extends EaseBaseFragment implements EMMessageListe
         if (toChatUsername != null) {
             detailBean.userId = toChatUsername;
         }
-        detailBean.shipChannel = distributorId;
+        detailBean.distributorId = distributorId;
         String userId = SPUtils.getString("userId");
         if (userId != null) {
 

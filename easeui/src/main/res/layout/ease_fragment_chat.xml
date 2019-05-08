@@ -171,21 +171,21 @@
 
                 <TextView
                     android:layout_width="wrap_content"
-                    android:layout_height="@dimen/dp_20"
+                    android:layout_height="wrap_content"
                     android:text="两"
                     android:gravity="end"
                     android:layout_alignParentRight="true"
-                    android:layout_marginRight="@dimen/dp_68"
+                    android:layout_marginRight="@dimen/dp_67"
                     android:textSize="@dimen/sp_10"
                     android:textStyle="bold"
                     android:textColor="@color/black_deep"/>
                 <TextView
                     android:id="@+id/jin"
                     android:layout_width="wrap_content"
-                    android:layout_height="@dimen/dp_20"
+                    android:layout_height="wrap_content"
                     android:text="斤"
                     android:layout_alignParentRight="true"
-                    android:layout_marginRight="@dimen/dp_175"
+                    android:layout_marginRight="@dimen/dp_180"
                     android:textSize="@dimen/sp_10"
                     android:textStyle="bold"
                     android:textColor="@color/black_deep"/>

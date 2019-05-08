@@ -25,6 +25,7 @@ public class OrderDetailBean {
     public int  orderPrice;
     public int  orderStatus;
     public String  userId;
+    public String  distributorId;
     public int  version;
     public ArrayList<GoodsBean>  orderGoods;
     public static class GoodsBean {
