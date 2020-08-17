@@ -61,13 +61,13 @@
                     android:drawableTop="@drawable/tab_menu_system_selector"
                     android:paddingTop="4dp"
                     android:text="@string/tab_menu_system" />
-   <RadioButton
+
+                <RadioButton
                     android:id="@+id/rb_menu_wode"
                     style="@style/tab_style"
                     android:drawableTop="@drawable/tab_menu_wode_selector"
                     android:paddingTop="4dp"
                     android:text="@string/tab_menu_wode" />
-
 
 
             </RadioGroup>

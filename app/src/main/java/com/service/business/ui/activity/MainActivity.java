@@ -71,13 +71,13 @@ public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedCh
 
     @Override
     public void initData() {
-        fragments = new ArrayList<Fragment>();
-      fragments.add(new ConversationListFragment());
-        fragments.add(new FindFragment());
-        fragments.add(new SystemFragment());
-        fragments.add(new WodeFragment());
-        rgMenu.setOnCheckedChangeListener(this);
-        rbMenuHome.setChecked(true);
+            fragments = new ArrayList<Fragment>();
+          fragments.add(new ConversationListFragment());
+            fragments.add(new FindFragment());
+            fragments.add(new SystemFragment());
+            fragments.add(new WodeFragment());
+            rgMenu.setOnCheckedChangeListener(this);
+            rbMenuHome.setChecked(true);
     }
 
     @Override

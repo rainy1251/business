@@ -5,8 +5,8 @@ package com.service.business.ui.utils;
  */
 
 public class Constants {
-  public static String BASE_URL = "http://47.95.206.250:8088";
-  public static String FIND_URL = "http://api.zhangxiaofu.cn/webview/list.html";
+  public static String BASE_URL = "http://39.105.211.152:8090";
+  public static String FIND_URL = "http://api.39.105.211.152:8088/webview/list.html";
 
 
 }
