@@ -12,6 +12,7 @@ import com.service.business.ui.adapter.base.BaseHolder;
 import com.service.business.ui.adapter.base.DefaultAdapter;
 import com.service.business.ui.event.MessagePositionEvent;
 import com.service.business.ui.event.MessageUpDataPriceEvent;
+import com.service.business.ui.utils.MyToast;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -135,6 +136,10 @@ public class ShopListAdapter extends DefaultAdapter {
                 public void onClick(View v) {
                     String num = tvNum.getText().toString();
                     String decimal = tvDecimal.getText().toString();
+                    if (decimal.equals("9")) {
+                        MyToast.show("最多添加9两，请设置斤数");
+                        return;
+                    }
                     tvDecimal.setText((Integer.parseInt(decimal) + 1) + "");
                     if (TextUtils.isEmpty(decimal)) {
                         resultBean.num = tvNum.getText().toString() + "";
